@@ -1,0 +1,60 @@
+{
+  "_comment": "Weekly input the agent assembles, then feeds to build_pulse.py. Values shown mirror the 5/21/26 deck as a reference. tokens -> {{TOKEN}} in the template; top10 -> tbl_top10; charts -> cash chart image swaps (shape_name: filename in --charts-dir). AGING charts are intentionally omitted (manual snip until YayPay/Power BI source is wired in).",
+
+  "tokens": {
+    "WEEK_ENDING": "5.21.26",
+
+    "CASH_MTD": "$8.8M",
+    "CASH_MTD_PCT": "72%",
+    "CASH_QTD": "$26.2M",
+    "CASH_QTD_PCT": "58%",
+    "DSO": "37",
+    "BAL_60": "$2.84M",
+    "COLL_60_WEEK": "$292k",
+    "BAL_90": "$1.40M",
+    "COLL_90_WEEK": "$297k",
+    "FORECAST_CONFIDENCE": "Medium",
+
+    "AGING60_START": "$2.97M",
+    "AGING60_ROLLED_IN": "$161k",
+    "AGING60_ENDING": "$2.82M",
+    "AGING60_TARGET": "<$2.90M",
+
+    "AGING90_START": "$1.62M",
+    "AGING90_ROLLED_IN": "$84k",
+    "AGING90_WRITEOFFS": "$0",
+    "AGING90_TARGET": "<$2.28M",
+
+    "SCORE_MAY_DAILY_AVG": "$561k",
+    "SCORE_MAY_ATTAINMENT": "47%",
+    "SCORE_Q2_ATTAINMENT": "51%",
+    "TOP_MOVER_1": "Hallmark - $434k",
+    "TOP_MOVER_2": "Mpact Operations - $228k",
+    "TOP_MOVER_3": "Crown Bakeries - $196k",
+
+    "HOLDS_UNDER_THREAT": "77 Accounts",
+    "HOLDS_ON_HOLD": "300 Accounts",
+    "HOLDS_RELATED_PAYMENTS": "$9M"
+  },
+
+  "top10": [
+    {"customer": "Mars Information Systems", "exposure": "$252K", "status": "Payment Promised", "root_cause": "Portal upload / procurement misalignment", "owner": "Eric/Phil", "timeline": "EOM 5/20", "next_action": "Consolidated invoice issued 1/9, uploaded to portal 2/11; credited & re-uploaded 3/11. Payment scheduled May 20."},
+    {"customer": "Nelt Group", "exposure": "$190K", "status": "Payment in progress / dispute resolution", "root_cause": "Historically slow to submit payment", "owner": "Penn High", "timeline": "EOQ 5/21", "next_action": "Disputes resolved; $111K invoice submitted for payment, receipt expected within 10 days. $26K received 5/15."},
+    {"customer": "Bjornstad Construction Supply", "exposure": "$166K", "status": "Demand letter sent / settlement talks", "root_cause": "Unresponsive re: implementation & past-due balance", "owner": "Penn High", "timeline": "TBD 5/21", "next_action": "Demand & termination letter issued 5/6. 5/20 Jordan opened settlement outreach; awaiting customer response."},
+    {"customer": "Leadersoft (Xuhui,31)", "exposure": "$129K", "status": "Shipment of docs/USB in progress", "root_cause": "Government requirement for invoice payment", "owner": "Kevin Keene", "timeline": "EOQ 5/21", "next_action": "Jordan preparing shipment (USB drives, commercial invoices, customs paperwork); to ship by EOW with tracking."},
+    {"customer": "Mondelez International", "exposure": "$116K", "status": "Multiple accounts, moving to resolution", "root_cause": "Tax, portal, delivery, terms discrepancies", "owner": "Eric/Phil", "timeline": "EOQ 5/20", "next_action": "Dispersed delinquency; active escalations. PE Declaration/FORM 41 holding India payment; reissuing missing $13K US payment."},
+    {"customer": "International Motors", "exposure": "$115K", "status": "Paid", "root_cause": "Portal Issues", "owner": "Eric/Phil", "timeline": "EOM", "next_action": "5/21 received payment 5/20."},
+    {"customer": "DS Smith PLC", "exposure": "$85K", "status": "Disputed Invoices", "root_cause": "Implementation Issues", "owner": "Penn High", "timeline": "EOQ 5/21", "next_action": "P2P $55K DSS Martin; UK Caerphilly EUR30K cancellation; Slovakia EUR35K module dispute escalated to David Loftus."},
+    {"customer": "Marx Foods", "exposure": "$82K", "status": "Demand letter sent 4/6", "root_cause": "Implementation dispute", "owner": "Kevin Keene", "timeline": "TBD 5/21", "next_action": "Legal rejected reimbursement demand 5/20, issued final 10-day payment request; may refer to 3rd-party collections."},
+    {"customer": "Auto One", "exposure": "$81K", "status": "Customer disputing billed products", "root_cause": "Product dispute (MAF/eCommerce dependency)", "owner": "Eric/Phil", "timeline": "TBD 5/21", "next_action": "5/6 CS proposed 50% credit for 24-mo renewal; pending customer approval. Limited responsiveness from CS."},
+    {"customer": "AVID Logistics", "exposure": "$67K", "status": "Demand letter sent", "root_cause": "Unresponsive", "owner": "Eric/Phil", "timeline": "TBD 5/21", "next_action": "Customer placed with 3rd-party collections."}
+  ],
+
+  "charts": {
+    "_comment_charts": "Cash charts only. n8n fetches these from the AR Tracker via the Graph workbook chart-image API and writes them into --charts-dir. Aging chart shapes are intentionally NOT listed, so the builder leaves last week's images in place.",
+    "chart_weekly_run_rate": "weekly_run_rate.png",
+    "chart_cash_target_vs_actual": "cash_target_vs_actual.png",
+    "chart_cash_target_vs_actual_2": "cash_target_vs_actual.png",
+    "chart_payment_methods": "payment_methods.png"
+  }
+}

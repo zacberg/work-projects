@@ -1,0 +1,2657 @@
+{
+  "name": "Salesforce Case Resolution Summary Generator Helper",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "={{ 'https://advantive.my.salesforce.com/services/data/v61.0/query?q=' + encodeURIComponent(\"SELECT Id, CaseNumber FROM Case WHERE Id = '\" + $json.caseId + \"' OR CaseNumber = '\" + $json.caseId + \"' LIMIT 1\") }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "id": "1c33b28e-5458-4d01-9dc0-d8e48066a0e7",
+      "name": "Find Case POST",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4288,
+        2368
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "case-resolution",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "5a0816ba-073f-426f-93d8-fbd3ebfb5543",
+      "name": "Webhook1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        3392,
+        2784
+      ],
+      "webhookId": "a1b2c3d4-e5f6-7890-abcd-000000000001",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TsE18ZkQqz5OiuYp",
+          "name": "Case Resolution Secret"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "getAll",
+        "limit": 1,
+        "options": {
+          "conditionsUi": {
+            "conditionValues": [
+              {
+                "field": "CaseNumber",
+                "value": "={{ $json.body.caseNumber }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "aab63112-17b1-4910-8f12-f01e86be354f",
+      "name": "Find Case1",
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        3616,
+        2784
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "update",
+        "caseId": "={{ $('Find Case1').item.json.Id }}",
+        "updateFields": {
+          "customFieldsUi": {
+            "customFieldsValues": [
+              {
+                "fieldId": "Resolution_Summary__c",
+                "value": "={{ $('Webhook1').item.json.body.resolution }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "5a9b21af-9a38-44df-a3e0-ebe01b127b1f",
+      "name": "Update Resolution1",
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        3840,
+        2784
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "dcba4449-0a74-469d-8d25-09e91fc5d705",
+      "name": "Respond to Webhook1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        4064,
+        2784
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode || 200 }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "id": "2e93b6c2-f19d-4147-9dbd-70ce9074fbfd",
+      "name": "Respond Read Summary1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        4736,
+        3296
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4288,
+        3264
+      ],
+      "id": "cff36850-2adb-48e9-bbd7-f803cb8404d9",
+      "name": "Merge1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst caseData = items[0]?.json ?? {};\nconst emailResponse = items[1]?.json ?? {};\nconst feedResponse = items[2]?.json ?? {};\nconst taskResponse = items[3]?.json ?? {};\n\n/**\n * Configuration\n */\nconst MAX_EMAILS = 30;\nconst MAX_FEED_ITEMS = 30;\nconst MAX_TASKS = 30;\n\nconst MAX_DESCRIPTION_LENGTH = 8000;\nconst MAX_MESSAGE_LENGTH = 4000;\nconst MAX_TASK_DESCRIPTION_LENGTH = 3000;\n\n/**\n * Convert a value to a normalized string.\n */\nfunction normalizeText(value, maxLength = 4000) {\n  if (value === null || value === undefined) {\n    return null;\n  }\n\n  let text = String(value)\n    // Decode a few common HTML entities from Salesforce email content.\n    .replace(/&nbsp;/gi, \" \")\n    .replace(/&amp;/gi, \"&\")\n    .replace(/&lt;/gi, \"<\")\n    .replace(/&gt;/gi, \">\")\n    .replace(/&#39;/gi, \"'\")\n    .replace(/&quot;/gi, '\"')\n\n    // Remove Salesforce email thread tokens.\n    .replace(/thread::[^\\s]+::/gi, \"\")\n\n    // Remove image and tracking URLs.\n    .replace(\n      /https?:\\/\\/[^\\s\\]]*(?:ImageServer|servlet\\.ImageServer)[^\\s\\]]*/gi,\n      \"\"\n    )\n\n    // Normalize whitespace.\n    .replace(/\\r\\n/g, \"\\n\")\n    .replace(/\\r/g, \"\\n\")\n    .replace(/[ \\t]+/g, \" \")\n    .replace(/\\n{3,}/g, \"\\n\\n\")\n    .trim();\n\n  if (!text) {\n    return null;\n  }\n\n  if (text.length > maxLength) {\n    text = `${text.slice(0, maxLength).trim()}…`;\n  }\n\n  return text;\n}\n\n/**\n * Remove quoted email history so each email contains only the newest message.\n */\nfunction removeQuotedHistory(value) {\n  const text = normalizeText(value, 20000);\n\n  if (!text) {\n    return null;\n  }\n\n  const separators = [\n    \"--------------- Original Message ---------------\",\n    \"-----Original Message-----\",\n    \"\\nFrom:\",\n    \"\\nSent:\",\n    \"\\nOn \"\n  ];\n\n  let cutoff = text.length;\n\n  for (const separator of separators) {\n    const index = text.indexOf(separator);\n\n    if (index >= 0 && index < cutoff) {\n      cutoff = index;\n    }\n  }\n\n  return normalizeText(text.slice(0, cutoff), MAX_MESSAGE_LENGTH);\n}\n\n/**\n * Replace unnecessary personal/contact details in free text.\n *\n * Set these replacements according to your privacy requirements.\n */\nfunction redactSensitiveData(value, maxLength = 4000) {\n  const text = normalizeText(value, maxLength);\n\n  if (!text) {\n    return null;\n  }\n\n  return text\n    // Email addresses\n    .replace(\n      /\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b/gi,\n      \"[email removed]\"\n    )\n\n    // Common North American phone formats\n    .replace(\n      /(?:\\+?1[\\s.-]?)?(?:\\(\\d{3}\\)|\\d{3})[\\s.-]?\\d{3}[\\s.-]?\\d{4}\\b/g,\n      \"[phone removed]\"\n    )\n\n    // Salesforce 15- or 18-character IDs\n    .replace(/\\b[a-zA-Z0-9]{15}(?:[a-zA-Z0-9]{3})?\\b/g, \"[record id removed]\")\n\n    // Collapse whitespace again after replacements.\n    .replace(/[ \\t]+/g, \" \")\n    .replace(/\\n{3,}/g, \"\\n\\n\")\n    .trim();\n}\n\n/**\n * Return null instead of empty strings.\n */\nfunction cleanValue(value, maxLength = 4000) {\n  return redactSensitiveData(value, maxLength) || null;\n}\n\n/**\n * Normalize Salesforce dates into ISO strings.\n */\nfunction normalizeDate(value) {\n  if (!value) {\n    return null;\n  }\n\n  const date = new Date(value);\n\n  return Number.isNaN(date.getTime()) ? null : date.toISOString();\n}\n\n/**\n * Infer a standardized sender category.\n */\nfunction getSenderType(record) {\n  if (record?.Incoming === true) {\n    return \"customer\";\n  }\n\n  if (record?.Incoming === false) {\n    return \"support\";\n  }\n\n  return \"unknown\";\n}\n\n/**\n * Normalize email messages.\n */\nconst emails = (emailResponse.records ?? [])\n  .map((email) => ({\n    date: normalizeDate(email.MessageDate ?? email.CreatedDate),\n    direction: email.Incoming === true ? \"inbound\" : \"outbound\",\n    senderType: getSenderType(email),\n    senderName: cleanValue(email.FromName, 200),\n    subject: cleanValue(email.Subject, 500),\n    body: redactSensitiveData(\n      removeQuotedHistory(email.TextBody ?? email.HtmlBody),\n      MAX_MESSAGE_LENGTH\n    ),\n    hasAttachment: Boolean(email.HasAttachment)\n  }))\n  .filter((email) => email.body || email.subject)\n  .sort((a, b) => {\n    const first = a.date ? Date.parse(a.date) : 0;\n    const second = b.date ? Date.parse(b.date) : 0;\n    return first - second;\n  })\n  .slice(-MAX_EMAILS);\n\n/**\n * Normalize feed items.\n *\n * Update field fallbacks if your Salesforce FeedItem query returns\n * different field names.\n */\nconst feedItems = (feedResponse.records ?? [])\n  .map((feed) => ({\n    date: normalizeDate(feed.CreatedDate),\n    type: cleanValue(feed.Type, 100),\n    author: cleanValue(\n      feed.CreatedBy?.Name ??\n        feed.CreatedByName ??\n        feed.InsertedBy?.Name,\n      200\n    ),\n    body: cleanValue(\n      feed.Body ??\n        feed.CommentBody ??\n        feed.TextBody,\n      MAX_MESSAGE_LENGTH\n    ),\n    visibility: cleanValue(feed.Visibility, 100)\n  }))\n  .filter((feed) => feed.body)\n  .sort((a, b) => {\n    const first = a.date ? Date.parse(a.date) : 0;\n    const second = b.date ? Date.parse(b.date) : 0;\n    return first - second;\n  })\n  .slice(-MAX_FEED_ITEMS);\n\n/**\n * Normalize tasks.\n */\nconst tasks = (taskResponse.records ?? [])\n  .map((task) => ({\n    date: normalizeDate(\n      task.ActivityDate ??\n        task.CompletedDateTime ??\n        task.CreatedDate\n    ),\n    subject: cleanValue(task.Subject, 500),\n    status: cleanValue(task.Status, 100),\n    type: cleanValue(task.TaskSubtype ?? task.Type, 100),\n    description: cleanValue(\n      removeQuotedHistory(task.Description),\n      MAX_TASK_DESCRIPTION_LENGTH\n    ),\n    completed: Boolean(\n      task.IsClosed ||\n      task.Status === \"Completed\"\n    )\n  }))\n  .filter((task) => task.subject || task.description)\n  .sort((a, b) => {\n    const first = a.date ? Date.parse(a.date) : 0;\n    const second = b.date ? Date.parse(b.date) : 0;\n    return first - second;\n  })\n  .slice(-MAX_TASKS);\n\n/**\n * Deliberately allowlist only fields useful for resolution analysis.\n */\nconst normalizedCase = {\n  id: caseData.Id,\n  caseNumber: cleanValue(caseData.CaseNumber, 100),\n  subject: cleanValue(caseData.Subject, 1000),\n  description: cleanValue(\n    caseData.Description,\n    MAX_DESCRIPTION_LENGTH\n  ),\n\n  status: cleanValue(caseData.Status, 200),\n  closeReason: cleanValue(\n    caseData.Reason ??\n      caseData.Case_Outcome__c ??\n      caseData.Resolution_Type__c,\n    500\n  ),\n\n  priority: cleanValue(caseData.Priority, 100),\n  severity: cleanValue(caseData.Severity__c, 100),\n  origin: cleanValue(caseData.Origin, 100),\n  caseType: cleanValue(caseData.Type, 100),\n\n  product: cleanValue(\n    caseData.Support_Product__c ??\n      caseData.Support_Product_Text__c,\n    300\n  ),\n  productArea: cleanValue(caseData.Product_Area__c, 300),\n  businessUnit: cleanValue(caseData.Business_Unit__c, 300),\n  adoWorkItemId: cleanValue(caseData.ADO_WorkItem_ID__c, 200),\n  devIssueNumber: cleanValue(caseData.Issue__c, 200),\n  supportVertical: cleanValue(caseData.Support_Vertical__c, 300),\n  environment: cleanValue(caseData.Environment__c, 500),\n  version: cleanValue(caseData.Version__c, 200),\n\n  team: cleanValue(caseData.Team__c, 200),\n  ownerName: cleanValue(\n    caseData.Task_Assigned_To__c ??\n      caseData.Owner?.Name,\n    200\n  ),\n\n  stepsToReproduce: cleanValue(\n    caseData.Steps_to_Reproduce_Text__c ??\n      caseData.Steps_to_Reproduce__c,\n    MAX_DESCRIPTION_LENGTH\n  ),\n\n  rootCause: cleanValue(caseData.Root_Cause__c, 4000),\n  engineeringDescription: cleanValue(\n    caseData.Engineering_Description_Text__c ??\n      caseData.Engineering_Description__c,\n    4000\n  ),\n  engineeringResolution: cleanValue(\n    caseData.Engineering_Resolution__c,\n    4000\n  ),\n  engineeringStatus: cleanValue(\n    caseData.Engineering_Status__c,\n    200\n  ),\n  fixedInVersion: cleanValue(\n    caseData.Engineering_Fixed_in_Version__c,\n    200\n  ),\n\n  existingResolutionSummary: cleanValue(\n    caseData.Resolution_Summary__c,\n    5000\n  ),\n\n  createdAt: normalizeDate(caseData.CreatedDate),\n  lastStatusChangeDate: normalizeDate(caseData.Last_Status_Change_Date__c),\n  resolutionDeliveredDate: normalizeDate(caseData.Resolution_Delivered_Date__c),\n  closedAt: normalizeDate(\n    caseData.Effective_Closed_Date__c ??\n      caseData.ClosedDate\n  ),\n  lastModifiedAt: normalizeDate(caseData.LastModifiedDate),\n\n  wasEscalated: Boolean(\n    caseData.IsEscalated ||\n      caseData.Is_Customer_Escalated__c\n  ),\n  wasReopened: Boolean(\n    caseData.Is_Reopened_Case__c ||\n      Number(caseData.Reopen_Count__c ?? 0) > 0\n  )\n};\n\n/**\n * Remove null fields from an object while preserving false and zero.\n */\nfunction removeNullFields(object) {\n  return Object.fromEntries(\n    Object.entries(object).filter(\n      ([, value]) =>\n        value !== null &&\n        value !== undefined &&\n        value !== \"\"\n    )\n  );\n}\n\nconst payload = {\n  schemaVersion: \"1.0\",\n  purpose: \"case_resolution_summary\",\n  case: removeNullFields(normalizedCase),\n  timeline: {\n    emails,\n    feedItems,\n    tasks\n  },\n  recordCounts: {\n    emails: emails.length,\n    feedItems: feedItems.length,\n    tasks: tasks.length\n  }\n};\n\nreturn [\n  {\n    json: {\n      ok: true,\n      payload\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4512,
+        3296
+      ],
+      "id": "b84f0286-3aca-4bae-80c6-83b8c5732d62",
+      "name": "Sanitize output to GPT",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://advantive.my.salesforce.com/services/data/v61.0/queryAll?q=' + encodeURIComponent(\"SELECT Id, ParentId, ActivityId, Subject, TextBody, HtmlBody, FromName, FromAddress, ToAddress, CcAddress, BccAddress, Incoming, Status, MessageDate, CreatedDate, IsExternallyVisible, HasAttachment, MessageIdentifier, ThreadIdentifier, ReplyToEmailMessageId, CreatedById FROM EmailMessage WHERE ParentId = '\" + $json.Id + \"' ORDER BY MessageDate ASC\") }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "id": "b5752e07-31aa-4f57-a68e-1de15e0e60b6",
+      "name": "Get EmailMessages",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4064,
+        3200
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "get",
+        "caseId": "={{ $json.Id }}"
+      },
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1.1,
+      "position": [
+        4064,
+        3008
+      ],
+      "id": "2082790e-719d-46f3-9cff-0030364cdcdc",
+      "name": "Get a case",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://advantive.my.salesforce.com/services/data/v61.0/queryAll?q=' + encodeURIComponent(\"SELECT Id, ParentId, Type, Title, Body, IsRichText, Visibility, Status, RelatedRecordId, CreatedDate, CreatedById, InsertedById, CommentCount, HasContent FROM FeedItem WHERE ParentId = '\" + $json.Id + \"' ORDER BY CreatedDate ASC\") }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "id": "0ac05b2d-8ade-4e30-a5f5-d487e04c1edf",
+      "name": "Get FeedItems",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4064,
+        3392
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://advantive.my.salesforce.com/services/data/v61.0/queryAll?q=' + encodeURIComponent(\"SELECT Id, WhatId, WhoId, Subject, Description, Type, TaskSubtype, Status, Priority, ActivityDate, CompletedDateTime, CallType, CallDisposition, CallDurationInSeconds, OwnerId, CreatedById, CreatedDate FROM Task WHERE WhatId = '\" + $json.Id + \"' ORDER BY CreatedDate ASC\") }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "id": "2e002637-8fa7-4bb4-bfc7-ac805f502f33",
+      "name": "Get Tasks",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4064,
+        3584
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "getAll",
+        "limit": 1,
+        "options": {
+          "conditionsUi": {
+            "conditionValues": [
+              {
+                "field": "CaseNumber",
+                "value": "={{ $json.query.caseNumber }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1.1,
+      "position": [
+        3840,
+        3296
+      ],
+      "id": "29d3251f-a1f1-4afd-b06d-401a5ba954cb",
+      "name": "Get Case Id by Case Number",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "path": "case-resolution/summary",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "9c01a227-99eb-408a-bf75-be0291fda406",
+      "name": "GET Case Resolution Summary",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        3392,
+        3296
+      ],
+      "webhookId": "case-resolution-summary-read",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "case-resolution/summary",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "54566b14-6ac3-4a1f-993e-b8c32da4b11a",
+      "name": "POST Case Resolution Summary",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        3392,
+        2464
+      ],
+      "webhookId": "case-resolution-summary-send",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5f577d17-54d5-45c2-89c8-47fdeb9e0f1f",
+              "leftValue": "={{ $json.headers['openai-gpt-id'] }}",
+              "rightValue": "g-6a55234622c48191aea0c8f4fbf74a6c",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3616,
+        2464
+      ],
+      "id": "b5f50f08-4d08-4f99-b06f-debab79d6592",
+      "name": "If coming from Custom GPT POST",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5f577d17-54d5-45c2-89c8-47fdeb9e0f1f",
+              "leftValue": "={{ $json.headers['openai-gpt-id'] }}",
+              "rightValue": "g-6a55234622c48191aea0c8f4fbf74a6c",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3616,
+        3296
+      ],
+      "id": "504683a2-854d-48d1-bc27-897c8f4e13a8",
+      "name": "If coming from Custom GPT GET",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const request = $input.first().json;\nconst body = request.body || {};\nconst errors = [];\n\nconst cleanString = (value) => typeof value === 'string' ? value.trim() : '';\nconst caseId = cleanString(body.caseId);\nconst summary = cleanString(body.summary);\n\nif (!caseId) errors.push('caseId is required');\nif (!summary) errors.push('summary is required');\nif (body.resolutionSteps !== undefined && !Array.isArray(body.resolutionSteps)) {\n  errors.push('resolutionSteps must be an array of strings');\n}\n\nif (errors.length > 0) {\n  return [{\n    json: {\n      ok: false,\n      statusCode: 400,\n      error: 'Validation failed',\n      details: errors\n    }\n  }];\n}\n\nconst store = $getWorkflowStaticData('global');\nstore.caseResolutionSummaries = store.caseResolutionSummaries || {};\n\nconst now = new Date().toISOString();\nconst record = {\n  ok: true,\n  action: 'sendCaseResolutionSummary',\n  caseId,\n  summary,\n  resolutionStatus: cleanString(body.resolutionStatus) || 'resolved',\n  customerImpact: cleanString(body.customerImpact) || undefined,\n  rootCause: cleanString(body.rootCause) || undefined,\n  resolutionSteps: Array.isArray(body.resolutionSteps) ? body.resolutionSteps.map(String).filter(Boolean) : [],\n  resolvedBy: cleanString(body.resolvedBy) || undefined,\n  resolvedAt: cleanString(body.resolvedAt) || now,\n  sourceSystem: cleanString(body.sourceSystem) || undefined,\n  metadata: body.metadata && typeof body.metadata === 'object' && !Array.isArray(body.metadata) ? body.metadata : {},\n  storedAt: now\n};\n\nstore.caseResolutionSummaries[caseId] = record;\n\nreturn [{ json: record }];"
+      },
+      "id": "451c6552-2c0b-4ff3-9318-f53cd7505e79",
+      "name": "Validate and Store Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3840,
+        2464
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond1",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "93fbe6bd-64d0-44b0-a3f3-697dba058c1d",
+      "name": "Valid?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        4064,
+        2464
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode || 400 }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "id": "3daf6857-bcde-4db8-be50-46afe71c5389",
+      "name": "Respond Validation Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        4288,
+        2560
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "update",
+        "caseId": "={{ $('Valid?').item.json.caseId }}",
+        "updateFields": {
+          "customFieldsUi": {
+            "customFieldsValues": [
+              {
+                "fieldId": "Resolution_Summary__c",
+                "value": "={{ $('Validate and Store Summary').item.json.summary }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "e7e382c8-c5d0-4c2d-b99c-ecf26b291f4e",
+      "name": "Update Case Resolution",
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        4512,
+        2304
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { ok: true, action: 'sendCaseResolutionSummary', caseId: $('Validate and Store Summary').item.json.caseId, summary: $('Validate and Store Summary').item.json.summary, salesforceUpdated: true, message: 'Resolution saved to Salesforce.' } }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "id": "f7fb8d00-c324-4759-ade0-39f12be19e7c",
+      "name": "Respond Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        4736,
+        2256
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { ok: false, statusCode: 500, error: 'Salesforce update failed', details: $json.message || $json.error || 'Unknown error', caseId: $('Validate and Store Summary').item.json.caseId } }}",
+        "options": {
+          "responseCode": 500,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "id": "468471c3-6f27-4e50-a58f-95a26a93bb38",
+      "name": "Respond Salesforce Error",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        4736,
+        2464
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "case-resolution",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "37f45da3-f960-4a7d-b841-3fa329fd50eb",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        3392,
+        1232
+      ],
+      "webhookId": "a1b2c3d4-e5f6-7890-abcd-000000000001",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TsE18ZkQqz5OiuYp",
+          "name": "Case Resolution Secret"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "getAll",
+        "limit": 1,
+        "options": {
+          "conditionsUi": {
+            "conditionValues": [
+              {
+                "field": "CaseNumber",
+                "value": "={{ $json.body.caseNumber }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "81d0f2d3-fe95-47ab-b12a-f10724964be6",
+      "name": "Find Case",
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        3616,
+        1232
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "update",
+        "caseId": "={{ $('Find Case').item.json.Id }}",
+        "updateFields": {
+          "customFieldsUi": {
+            "customFieldsValues": [
+              {
+                "fieldId": "Resolution_Summary__c",
+                "value": "={{ $('Webhook').item.json.body.resolution }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "f4629517-40b2-45b1-a3ac-2f839ac12b40",
+      "name": "Update Resolution",
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        3840,
+        1232
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "80197cca-b9e9-4166-a580-d9951a288927",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        4064,
+        1232
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode || 200 }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "id": "47e05eb3-8cd2-477c-8c4a-913cfe3eb428",
+      "name": "Respond Read Summary",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        4736,
+        1744
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4288,
+        1712
+      ],
+      "id": "ee28119a-2e8e-4454-b14f-e7db2a3c8509",
+      "name": "Merge",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst caseData = items[0]?.json ?? {};\nconst emailResponse = items[1]?.json ?? {};\nconst feedResponse = items[2]?.json ?? {};\nconst taskResponse = items[3]?.json ?? {};\n\n/**\n * Configuration\n */\nconst MAX_EMAILS = 30;\nconst MAX_FEED_ITEMS = 30;\nconst MAX_TASKS = 30;\n\nconst MAX_DESCRIPTION_LENGTH = 8000;\nconst MAX_MESSAGE_LENGTH = 4000;\nconst MAX_TASK_DESCRIPTION_LENGTH = 3000;\n\n/**\n * Convert a value to a normalized string.\n */\nfunction normalizeText(value, maxLength = 4000) {\n  if (value === null || value === undefined) {\n    return null;\n  }\n\n  let text = String(value)\n    // Decode a few common HTML entities from Salesforce email content.\n    .replace(/&nbsp;/gi, \" \")\n    .replace(/&amp;/gi, \"&\")\n    .replace(/&lt;/gi, \"<\")\n    .replace(/&gt;/gi, \">\")\n    .replace(/&#39;/gi, \"'\")\n    .replace(/&quot;/gi, '\"')\n\n    // Remove Salesforce email thread tokens.\n    .replace(/thread::[^\\s]+::/gi, \"\")\n\n    // Remove image and tracking URLs.\n    .replace(\n      /https?:\\/\\/[^\\s\\]]*(?:ImageServer|servlet\\.ImageServer)[^\\s\\]]*/gi,\n      \"\"\n    )\n\n    // Normalize whitespace.\n    .replace(/\\r\\n/g, \"\\n\")\n    .replace(/\\r/g, \"\\n\")\n    .replace(/[ \\t]+/g, \" \")\n    .replace(/\\n{3,}/g, \"\\n\\n\")\n    .trim();\n\n  if (!text) {\n    return null;\n  }\n\n  if (text.length > maxLength) {\n    text = `${text.slice(0, maxLength).trim()}…`;\n  }\n\n  return text;\n}\n\n/**\n * Remove quoted email history so each email contains only the newest message.\n */\nfunction removeQuotedHistory(value) {\n  const text = normalizeText(value, 20000);\n\n  if (!text) {\n    return null;\n  }\n\n  const separators = [\n    \"--------------- Original Message ---------------\",\n    \"-----Original Message-----\",\n    \"\\nFrom:\",\n    \"\\nSent:\",\n    \"\\nOn \"\n  ];\n\n  let cutoff = text.length;\n\n  for (const separator of separators) {\n    const index = text.indexOf(separator);\n\n    if (index >= 0 && index < cutoff) {\n      cutoff = index;\n    }\n  }\n\n  return normalizeText(text.slice(0, cutoff), MAX_MESSAGE_LENGTH);\n}\n\n/**\n * Replace unnecessary personal/contact details in free text.\n *\n * Set these replacements according to your privacy requirements.\n */\nfunction redactSensitiveData(value, maxLength = 4000) {\n  const text = normalizeText(value, maxLength);\n\n  if (!text) {\n    return null;\n  }\n\n  return text\n    // Email addresses\n    .replace(\n      /\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b/gi,\n      \"[email removed]\"\n    )\n\n    // Common North American phone formats\n    .replace(\n      /(?:\\+?1[\\s.-]?)?(?:\\(\\d{3}\\)|\\d{3})[\\s.-]?\\d{3}[\\s.-]?\\d{4}\\b/g,\n      \"[phone removed]\"\n    )\n\n    // Salesforce 15- or 18-character IDs\n    .replace(/\\b[a-zA-Z0-9]{15}(?:[a-zA-Z0-9]{3})?\\b/g, \"[record id removed]\")\n\n    // Collapse whitespace again after replacements.\n    .replace(/[ \\t]+/g, \" \")\n    .replace(/\\n{3,}/g, \"\\n\\n\")\n    .trim();\n}\n\n/**\n * Return null instead of empty strings.\n */\nfunction cleanValue(value, maxLength = 4000) {\n  return redactSensitiveData(value, maxLength) || null;\n}\n\n/**\n * Normalize Salesforce dates into ISO strings.\n */\nfunction normalizeDate(value) {\n  if (!value) {\n    return null;\n  }\n\n  const date = new Date(value);\n\n  return Number.isNaN(date.getTime()) ? null : date.toISOString();\n}\n\n/**\n * Infer a standardized sender category.\n */\nfunction getSenderType(record) {\n  if (record?.Incoming === true) {\n    return \"customer\";\n  }\n\n  if (record?.Incoming === false) {\n    return \"support\";\n  }\n\n  return \"unknown\";\n}\n\n/**\n * Normalize email messages.\n */\nconst emails = (emailResponse.records ?? [])\n  .map((email) => ({\n    date: normalizeDate(email.MessageDate ?? email.CreatedDate),\n    direction: email.Incoming === true ? \"inbound\" : \"outbound\",\n    senderType: getSenderType(email),\n    senderName: cleanValue(email.FromName, 200),\n    subject: cleanValue(email.Subject, 500),\n    body: redactSensitiveData(\n      removeQuotedHistory(email.TextBody ?? email.HtmlBody),\n      MAX_MESSAGE_LENGTH\n    ),\n    hasAttachment: Boolean(email.HasAttachment)\n  }))\n  .filter((email) => email.body || email.subject)\n  .sort((a, b) => {\n    const first = a.date ? Date.parse(a.date) : 0;\n    const second = b.date ? Date.parse(b.date) : 0;\n    return first - second;\n  })\n  .slice(-MAX_EMAILS);\n\n/**\n * Normalize feed items.\n *\n * Update field fallbacks if your Salesforce FeedItem query returns\n * different field names.\n */\nconst feedItems = (feedResponse.records ?? [])\n  .map((feed) => ({\n    date: normalizeDate(feed.CreatedDate),\n    type: cleanValue(feed.Type, 100),\n    author: cleanValue(\n      feed.CreatedBy?.Name ??\n        feed.CreatedByName ??\n        feed.InsertedBy?.Name,\n      200\n    ),\n    body: cleanValue(\n      feed.Body ??\n        feed.CommentBody ??\n        feed.TextBody,\n      MAX_MESSAGE_LENGTH\n    ),\n    visibility: cleanValue(feed.Visibility, 100)\n  }))\n  .filter((feed) => feed.body)\n  .sort((a, b) => {\n    const first = a.date ? Date.parse(a.date) : 0;\n    const second = b.date ? Date.parse(b.date) : 0;\n    return first - second;\n  })\n  .slice(-MAX_FEED_ITEMS);\n\n/**\n * Normalize tasks.\n */\nconst tasks = (taskResponse.records ?? [])\n  .map((task) => ({\n    date: normalizeDate(\n      task.ActivityDate ??\n        task.CompletedDateTime ??\n        task.CreatedDate\n    ),\n    subject: cleanValue(task.Subject, 500),\n    status: cleanValue(task.Status, 100),\n    type: cleanValue(task.TaskSubtype ?? task.Type, 100),\n    description: cleanValue(\n      removeQuotedHistory(task.Description),\n      MAX_TASK_DESCRIPTION_LENGTH\n    ),\n    completed: Boolean(\n      task.IsClosed ||\n      task.Status === \"Completed\"\n    )\n  }))\n  .filter((task) => task.subject || task.description)\n  .sort((a, b) => {\n    const first = a.date ? Date.parse(a.date) : 0;\n    const second = b.date ? Date.parse(b.date) : 0;\n    return first - second;\n  })\n  .slice(-MAX_TASKS);\n\n/**\n * Deliberately allowlist only fields useful for resolution analysis.\n */\nconst normalizedCase = {\n  id: caseData.Id,\n  caseNumber: cleanValue(caseData.CaseNumber, 100),\n  subject: cleanValue(caseData.Subject, 1000),\n  description: cleanValue(\n    caseData.Description,\n    MAX_DESCRIPTION_LENGTH\n  ),\n\n  status: cleanValue(caseData.Status, 200),\n  closeReason: cleanValue(\n    caseData.Reason ??\n      caseData.Case_Outcome__c ??\n      caseData.Resolution_Type__c,\n    500\n  ),\n\n  priority: cleanValue(caseData.Priority, 100),\n  severity: cleanValue(caseData.Severity__c, 100),\n  origin: cleanValue(caseData.Origin, 100),\n  caseType: cleanValue(caseData.Type, 100),\n\n  product: cleanValue(\n    caseData.Support_Product__c ??\n      caseData.Support_Product_Text__c,\n    300\n  ),\n  productArea: cleanValue(caseData.Product_Area__c, 300),\n  businessUnit: cleanValue(caseData.Business_Unit__c, 300),\n  adoWorkItemId: cleanValue(caseData.ADO_WorkItem_ID__c, 200),\n  devIssueNumber: cleanValue(caseData.Issue__c, 200),\n  supportVertical: cleanValue(caseData.Support_Vertical__c, 300),\n  environment: cleanValue(caseData.Environment__c, 500),\n  version: cleanValue(caseData.Version__c, 200),\n\n  team: cleanValue(caseData.Team__c, 200),\n  ownerName: cleanValue(\n    caseData.Task_Assigned_To__c ??\n      caseData.Owner?.Name,\n    200\n  ),\n\n  stepsToReproduce: cleanValue(\n    caseData.Steps_to_Reproduce_Text__c ??\n      caseData.Steps_to_Reproduce__c,\n    MAX_DESCRIPTION_LENGTH\n  ),\n\n  rootCause: cleanValue(caseData.Root_Cause__c, 4000),\n  engineeringDescription: cleanValue(\n    caseData.Engineering_Description_Text__c ??\n      caseData.Engineering_Description__c,\n    4000\n  ),\n  engineeringResolution: cleanValue(\n    caseData.Engineering_Resolution__c,\n    4000\n  ),\n  engineeringStatus: cleanValue(\n    caseData.Engineering_Status__c,\n    200\n  ),\n  fixedInVersion: cleanValue(\n    caseData.Engineering_Fixed_in_Version__c,\n    200\n  ),\n\n  existingResolutionSummary: cleanValue(\n    caseData.Resolution_Summary__c,\n    5000\n  ),\n\n  createdAt: normalizeDate(caseData.CreatedDate),\n  lastStatusChangeDate: normalizeDate(caseData.Last_Status_Change_Date__c),\n  resolutionDeliveredDate: normalizeDate(caseData.Resolution_Delivered_Date__c),\n  closedAt: normalizeDate(\n    caseData.Effective_Closed_Date__c ??\n      caseData.ClosedDate\n  ),\n  lastModifiedAt: normalizeDate(caseData.LastModifiedDate),\n\n  wasEscalated: Boolean(\n    caseData.IsEscalated ||\n      caseData.Is_Customer_Escalated__c\n  ),\n  wasReopened: Boolean(\n    caseData.Is_Reopened_Case__c ||\n      Number(caseData.Reopen_Count__c ?? 0) > 0\n  )\n};\n\n/**\n * Remove null fields from an object while preserving false and zero.\n */\nfunction removeNullFields(object) {\n  return Object.fromEntries(\n    Object.entries(object).filter(\n      ([, value]) =>\n        value !== null &&\n        value !== undefined &&\n        value !== \"\"\n    )\n  );\n}\n\nconst payload = {\n  schemaVersion: \"1.0\",\n  purpose: \"case_resolution_summary\",\n  case: removeNullFields(normalizedCase),\n  timeline: {\n    emails,\n    feedItems,\n    tasks\n  },\n  recordCounts: {\n    emails: emails.length,\n    feedItems: feedItems.length,\n    tasks: tasks.length\n  }\n};\n\nreturn [\n  {\n    json: {\n      ok: true,\n      payload\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4512,
+        1744
+      ],
+      "id": "98c67d84-cb97-4d15-ac61-565a48218931",
+      "name": "Sanitize output to GPT1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://advantive.my.salesforce.com/services/data/v61.0/queryAll?q=' + encodeURIComponent(\"SELECT Id, ParentId, ActivityId, Subject, TextBody, HtmlBody, FromName, FromAddress, ToAddress, CcAddress, BccAddress, Incoming, Status, MessageDate, CreatedDate, IsExternallyVisible, HasAttachment, MessageIdentifier, ThreadIdentifier, ReplyToEmailMessageId, CreatedById FROM EmailMessage WHERE ParentId = '\" + $json.Id + \"' ORDER BY MessageDate ASC\") }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "id": "f6e118e8-87e9-47f9-8ee5-b2eccfb143a2",
+      "name": "Get EmailMessages1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4064,
+        1648
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "get",
+        "caseId": "={{ $json.Id }}"
+      },
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1.1,
+      "position": [
+        4064,
+        1456
+      ],
+      "id": "52bb1acd-18a6-4ae7-bdcc-cd1a2a0a3f46",
+      "name": "Get a case1",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://advantive.my.salesforce.com/services/data/v61.0/queryAll?q=' + encodeURIComponent(\"SELECT Id, ParentId, Type, Title, Body, IsRichText, Visibility, Status, RelatedRecordId, CreatedDate, CreatedById, InsertedById, CommentCount, HasContent FROM FeedItem WHERE ParentId = '\" + $json.Id + \"' ORDER BY CreatedDate ASC\") }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "id": "0f5ba2a7-73c7-411e-bcf4-8f4ab59535cb",
+      "name": "Get FeedItems1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4064,
+        1840
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://advantive.my.salesforce.com/services/data/v61.0/queryAll?q=' + encodeURIComponent(\"SELECT Id, WhatId, WhoId, Subject, Description, Type, TaskSubtype, Status, Priority, ActivityDate, CompletedDateTime, CallType, CallDisposition, CallDurationInSeconds, OwnerId, CreatedById, CreatedDate FROM Task WHERE WhatId = '\" + $json.Id + \"' ORDER BY CreatedDate ASC\") }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "id": "1331736d-2f02-41a3-8cff-5ce3e1621f59",
+      "name": "Get Tasks1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4064,
+        2032
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "getAll",
+        "limit": 1,
+        "options": {
+          "conditionsUi": {
+            "conditionValues": [
+              {
+                "field": "CaseNumber",
+                "value": "={{ $json.query.caseNumber }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1.1,
+      "position": [
+        3840,
+        1744
+      ],
+      "id": "fa34c9f3-9d20-42b8-b53e-84671c9980fe",
+      "name": "Get Case Id by Case Number1",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "path": "case-resolution/summary",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "f4853014-091d-486c-87f3-78d0176cfa33",
+      "name": "GET Case Resolution Summary1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        3392,
+        1744
+      ],
+      "webhookId": "case-resolution-summary-read",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "case-resolution/summary",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "1be142c4-74c8-4cfe-a68e-a93760e0d6b6",
+      "name": "POST Case Resolution Summary1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        3392,
+        912
+      ],
+      "webhookId": "case-resolution-summary-send",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5f577d17-54d5-45c2-89c8-47fdeb9e0f1f",
+              "leftValue": "={{ $json.headers['openai-gpt-id'] }}",
+              "rightValue": "g-6a55234622c48191aea0c8f4fbf74a6c",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3616,
+        912
+      ],
+      "id": "f866c0b7-d02c-4da8-a9a4-c3f9167fae0d",
+      "name": "If coming from Custom GPT POST1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5f577d17-54d5-45c2-89c8-47fdeb9e0f1f",
+              "leftValue": "={{ $json.headers['openai-gpt-id'] }}",
+              "rightValue": "g-6a55234622c48191aea0c8f4fbf74a6c",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3616,
+        1744
+      ],
+      "id": "9b05c2a6-9a50-448b-8a07-caeb00f2fa0c",
+      "name": "If coming from Custom GPT GET1",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const request = $input.first().json;\nconst body = request.body || {};\nconst errors = [];\n\nconst cleanString = (value) => typeof value === 'string' ? value.trim() : '';\nconst caseNumber = cleanString(body.caseNumber);\nconst summary = cleanString(body.summary);\n\nif (!caseNumber) errors.push('caseNumber is required');\nif (!summary) errors.push('summary is required');\nif (body.resolutionSteps !== undefined && !Array.isArray(body.resolutionSteps)) {\n  errors.push('resolutionSteps must be an array of strings');\n}\n\nif (errors.length > 0) {\n  return [{\n    json: {\n      ok: false,\n      statusCode: 400,\n      error: 'Validation failed',\n      details: errors\n    }\n  }];\n}\n\nconst store = $getWorkflowStaticData('global');\nstore.caseResolutionSummaries = store.caseResolutionSummaries || {};\n\nconst now = new Date().toISOString();\nconst record = {\n  ok: true,\n  action: 'sendCaseResolutionSummary',\n  caseNumber,\n  summary,\n  resolutionStatus: cleanString(body.resolutionStatus) || 'resolved',\n  customerImpact: cleanString(body.customerImpact) || undefined,\n  rootCause: cleanString(body.rootCause) || undefined,\n  resolutionSteps: Array.isArray(body.resolutionSteps) ? body.resolutionSteps.map(String).filter(Boolean) : [],\n  resolvedBy: cleanString(body.resolvedBy) || undefined,\n  resolvedAt: cleanString(body.resolvedAt) || now,\n  sourceSystem: cleanString(body.sourceSystem) || undefined,\n  metadata: body.metadata && typeof body.metadata === 'object' && !Array.isArray(body.metadata) ? body.metadata : {},\n  storedAt: now\n};\n\nstore.caseResolutionSummaries[caseNumber] = record;\n\nreturn [{ json: record }];"
+      },
+      "id": "841f5626-16c2-48fa-a480-8e3306f3dab7",
+      "name": "Validate and Store Summary1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3840,
+        912
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond1",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "b77b8445-4116-48b2-97c5-4f5e29bc9422",
+      "name": "Valid?1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        4064,
+        912
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode || 400 }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "id": "9fa2a11a-a766-4b8c-b1ba-058836cfa9cf",
+      "name": "Respond Validation Error1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        4288,
+        1008
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "update",
+        "caseId": "={{ $json.Id }}",
+        "updateFields": {
+          "customFieldsUi": {
+            "customFieldsValues": [
+              {
+                "fieldId": "Resolution_Summary__c",
+                "value": "={{ $('Validate and Store Summary1').item.json.summary }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "948ef726-8d39-423b-af6a-c0173132e12b",
+      "name": "Update Case Resolution1",
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        4512,
+        736
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { ok: true, action: 'sendCaseResolutionSummary', caseNumber: $('Validate and Store Summary1').item.json.caseNumber, summary: $('Validate and Store Summary1').item.json.summary, salesforceUpdated: true, message: 'Resolution saved to Salesforce.' } }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "id": "74cef301-e7e2-4bc6-82a6-5ae6b705d598",
+      "name": "Respond Success1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        4736,
+        688
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { ok: false, statusCode: 500, error: 'Salesforce update failed', details: $json.message || $json.error || 'Unknown error', caseNumber: $('Validate and Store Summary1').item.json.caseNumber } }}",
+        "options": {
+          "responseCode": 500,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "id": "0ecbaff0-8a98-4b3c-844b-5997dbec0ae3",
+      "name": "Respond Salesforce Error1",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        4736,
+        912
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "getAll",
+        "limit": 1,
+        "options": {
+          "conditionsUi": {
+            "conditionValues": [
+              {
+                "field": "CaseNumber",
+                "value": "={{ $json.caseNumber }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "112d00b4-1589-4c70-a4c1-5c5e48c93294",
+      "name": "Find Case POST1",
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1.1,
+      "position": [
+        4288,
+        816
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "disabled": true,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://advantive.my.salesforce.com/services/data/v61.0/query?q=' + encodeURIComponent(\"SELECT Id, Name, Type FROM Account WHERE Id = '\" + $json.AccountId + \"'\") }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "id": "0fffb930-65b5-4d2d-a976-78f5270b0b97",
+      "name": "Get Account Info1",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        7472,
+        2112
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "case-resolution",
+        "authentication": "headerAuth",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "db353903-85d2-4a88-9828-46cf0941a3de",
+      "name": "Webhook3",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        6576,
+        1888
+      ],
+      "webhookId": "a1b2c3d4-e5f6-7890-abcd-000000000001",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "TsE18ZkQqz5OiuYp",
+          "name": "Case Resolution Secret"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "getAll",
+        "limit": 1,
+        "options": {
+          "conditionsUi": {
+            "conditionValues": [
+              {
+                "field": "CaseNumber",
+                "value": "={{ $json.body.caseNumber }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "9d78437a-7b94-471c-88fe-916942f64a0c",
+      "name": "Find Case3",
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        6800,
+        1888
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "update",
+        "caseId": "={{ $('Find Case3').item.json.Id }}",
+        "updateFields": {
+          "customFieldsUi": {
+            "customFieldsValues": [
+              {
+                "fieldId": "Resolution_Summary__c",
+                "value": "={{ $('Webhook3').item.json.body.resolution }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "b51e018f-b753-409d-a0e4-e81183367a08",
+      "name": "Update Resolution3",
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        7024,
+        1888
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "b2b0ab4c-25d6-4ea8-bdcc-29aac3c1c575",
+      "name": "Respond to Webhook3",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        7248,
+        1888
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode || 200 }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "id": "a901a056-4ff1-409b-901c-a38187f17417",
+      "name": "Respond Read Summary3",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        7920,
+        2400
+      ]
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        7472,
+        2368
+      ],
+      "id": "4ca45441-a6cd-447a-a773-696d72b94cbf",
+      "name": "Merge3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst caseData = items[0]?.json ?? {};\nconst emailResponse = items[1]?.json ?? {};\nconst feedResponse = items[2]?.json ?? {};\nconst taskResponse = items[3]?.json ?? {};\n\nlet accountResponse = {};\ntry {\n  accountResponse = $('Get Account Info1').first()?.json ?? {};\n} catch (e) {\n  accountResponse = {};\n}\n\n/**\n * Configuration\n */\nconst MAX_EMAILS = 30;\nconst MAX_FEED_ITEMS = 30;\nconst MAX_TASKS = 30;\n\nconst MAX_DESCRIPTION_LENGTH = 8000;\nconst MAX_MESSAGE_LENGTH = 4000;\nconst MAX_TASK_DESCRIPTION_LENGTH = 3000;\n\n/**\n * Convert a value to a normalized string.\n */\nfunction normalizeText(value, maxLength = 4000) {\n  if (value === null || value === undefined) {\n    return null;\n  }\n\n  let text = String(value)\n    // Decode a few common HTML entities from Salesforce email content.\n    .replace(/&nbsp;/gi, \" \")\n    .replace(/&amp;/gi, \"&\")\n    .replace(/&lt;/gi, \"<\")\n    .replace(/&gt;/gi, \">\")\n    .replace(/&#39;/gi, \"'\")\n    .replace(/&quot;/gi, '\"')\n\n    // Remove Salesforce email thread tokens.\n    .replace(/thread::[^\\s]+::/gi, \"\")\n\n    // Remove image and tracking URLs.\n    .replace(\n      /https?:\\/\\/[^\\s\\]]*(?:ImageServer|servlet\\.ImageServer)[^\\s\\]]*/gi,\n      \"\"\n    )\n\n    // Normalize whitespace.\n    .replace(/\\r\\n/g, \"\\n\")\n    .replace(/\\r/g, \"\\n\")\n    .replace(/[ \\t]+/g, \" \")\n    .replace(/\\n{3,}/g, \"\\n\\n\")\n    .trim();\n\n  if (!text) {\n    return null;\n  }\n\n  if (text.length > maxLength) {\n    text = `${text.slice(0, maxLength).trim()}…`;\n  }\n\n  return text;\n}\n\n/**\n * Remove quoted email history so each email contains only the newest message.\n */\nfunction removeQuotedHistory(value) {\n  const text = normalizeText(value, 20000);\n\n  if (!text) {\n    return null;\n  }\n\n  const separators = [\n    \"--------------- Original Message ---------------\",\n    \"-----Original Message-----\",\n    \"\\nFrom:\",\n    \"\\nSent:\",\n    \"\\nOn \"\n  ];\n\n  let cutoff = text.length;\n\n  for (const separator of separators) {\n    const index = text.indexOf(separator);\n\n    if (index >= 0 && index < cutoff) {\n      cutoff = index;\n    }\n  }\n\n  return normalizeText(text.slice(0, cutoff), MAX_MESSAGE_LENGTH);\n}\n\n/**\n * Replace unnecessary personal/contact details in free text.\n *\n * Set these replacements according to your privacy requirements.\n */\nfunction redactSensitiveData(value, maxLength = 4000) {\n  const text = normalizeText(value, maxLength);\n\n  if (!text) {\n    return null;\n  }\n\n  return text\n    // Email addresses\n    .replace(\n      /\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b/gi,\n      \"[email removed]\"\n    )\n\n    // Common North American phone formats\n    .replace(\n      /(?:\\+?1[\\s.-]?)?(?:\\(\\d{3}\\)|\\d{3})[\\s.-]?\\d{3}[\\s.-]?\\d{4}\\b/g,\n      \"[phone removed]\"\n    )\n\n    // Salesforce 15- or 18-character IDs\n    .replace(/\\b[a-zA-Z0-9]{15}(?:[a-zA-Z0-9]{3})?\\b/g, \"[record id removed]\")\n\n    // Collapse whitespace again after replacements.\n    .replace(/[ \\t]+/g, \" \")\n    .replace(/\\n{3,}/g, \"\\n\\n\")\n    .trim();\n}\n\n/**\n * Return null instead of empty strings.\n */\nfunction cleanValue(value, maxLength = 4000) {\n  return redactSensitiveData(value, maxLength) || null;\n}\n\n/**\n * Normalize Salesforce dates into ISO strings.\n */\nfunction normalizeDate(value) {\n  if (!value) {\n    return null;\n  }\n\n  const date = new Date(value);\n\n  return Number.isNaN(date.getTime()) ? null : date.toISOString();\n}\n\n/**\n * Infer a standardized sender category.\n */\nfunction getSenderType(record) {\n  if (record?.Incoming === true) {\n    return \"customer\";\n  }\n\n  if (record?.Incoming === false) {\n    return \"support\";\n  }\n\n  return \"unknown\";\n}\n\n/**\n * Normalize email messages.\n */\nconst emails = (emailResponse.records ?? [])\n  .map((email) => ({\n    date: normalizeDate(email.MessageDate ?? email.CreatedDate),\n    direction: email.Incoming === true ? \"inbound\" : \"outbound\",\n    senderType: getSenderType(email),\n    senderName: cleanValue(email.FromName, 200),\n    subject: cleanValue(email.Subject, 500),\n    body: redactSensitiveData(\n      removeQuotedHistory(email.TextBody ?? email.HtmlBody),\n      MAX_MESSAGE_LENGTH\n    ),\n    hasAttachment: Boolean(email.HasAttachment)\n  }))\n  .filter((email) => email.body || email.subject)\n  .sort((a, b) => {\n    const first = a.date ? Date.parse(a.date) : 0;\n    const second = b.date ? Date.parse(b.date) : 0;\n    return first - second;\n  })\n  .slice(-MAX_EMAILS);\n\n/**\n * Normalize feed items.\n *\n * Update field fallbacks if your Salesforce FeedItem query returns\n * different field names.\n */\nconst feedItems = (feedResponse.records ?? [])\n  .map((feed) => ({\n    date: normalizeDate(feed.CreatedDate),\n    type: cleanValue(feed.Type, 100),\n    author: cleanValue(\n      feed.CreatedBy?.Name ??\n        feed.CreatedByName ??\n        feed.InsertedBy?.Name,\n      200\n    ),\n    body: cleanValue(\n      feed.Body ??\n        feed.CommentBody ??\n        feed.TextBody,\n      MAX_MESSAGE_LENGTH\n    ),\n    visibility: cleanValue(feed.Visibility, 100)\n  }))\n  .filter((feed) => feed.body)\n  .sort((a, b) => {\n    const first = a.date ? Date.parse(a.date) : 0;\n    const second = b.date ? Date.parse(b.date) : 0;\n    return first - second;\n  })\n  .slice(-MAX_FEED_ITEMS);\n\n/**\n * Normalize tasks.\n */\nconst tasks = (taskResponse.records ?? [])\n  .map((task) => ({\n    date: normalizeDate(\n      task.ActivityDate ??\n        task.CompletedDateTime ??\n        task.CreatedDate\n    ),\n    subject: cleanValue(task.Subject, 500),\n    status: cleanValue(task.Status, 100),\n    type: cleanValue(task.TaskSubtype ?? task.Type, 100),\n    description: cleanValue(\n      removeQuotedHistory(task.Description),\n      MAX_TASK_DESCRIPTION_LENGTH\n    ),\n    completed: Boolean(\n      task.IsClosed ||\n      task.Status === \"Completed\"\n    )\n  }))\n  .filter((task) => task.subject || task.description)\n  .sort((a, b) => {\n    const first = a.date ? Date.parse(a.date) : 0;\n    const second = b.date ? Date.parse(b.date) : 0;\n    return first - second;\n  })\n  .slice(-MAX_TASKS);\n\n/**\n * Deliberately allowlist only fields useful for resolution analysis.\n */\nconst normalizedCase = {\n  id: caseData.Id,\n  caseNumber: cleanValue(caseData.CaseNumber, 100),\n  subject: cleanValue(caseData.Subject, 1000),\n  description: cleanValue(\n    caseData.Description,\n    MAX_DESCRIPTION_LENGTH\n  ),\n\n  status: cleanValue(caseData.Status, 200),\n  closeReason: cleanValue(\n    caseData.Reason ??\n      caseData.Case_Outcome__c ??\n      caseData.Resolution_Type__c,\n    500\n  ),\n\n  priority: cleanValue(caseData.Priority, 100),\n  severity: cleanValue(caseData.Severity__c, 100),\n  origin: cleanValue(caseData.Origin, 100),\n  caseType: cleanValue(caseData.Type, 100),\n\n  accountName: cleanValue(accountResponse.records?.[0]?.Name, 300),\n  accountType: cleanValue(accountResponse.records?.[0]?.Type, 100),\n  caseResearch: cleanValue(caseData.Case_Research__c, 4000),\n\n  product: cleanValue(\n    caseData.Support_Product__c ??\n      caseData.Support_Product_Text__c,\n    300\n  ),\n  productArea: cleanValue(caseData.Product_Area__c, 300),\n  businessUnit: cleanValue(caseData.Business_Unit__c, 300),\n  adoWorkItemId: cleanValue(caseData.ADO_WorkItem_ID__c, 200),\n  devIssueNumber: cleanValue(caseData.Issue__c, 200),\n  supportVertical: cleanValue(caseData.Support_Vertical__c, 300),\n  environment: cleanValue(caseData.Environment__c, 500),\n  version: cleanValue(caseData.Version__c, 200),\n\n  team: cleanValue(caseData.Team__c, 200),\n  ownerName: cleanValue(\n    caseData.Task_Assigned_To__c ??\n      caseData.Owner?.Name,\n    200\n  ),\n\n  stepsToReproduce: cleanValue(\n    caseData.Steps_to_Reproduce_Text__c ??\n      caseData.Steps_to_Reproduce__c,\n    MAX_DESCRIPTION_LENGTH\n  ),\n\n  rootCause: cleanValue(caseData.Root_Cause__c, 4000),\n  engineeringDescription: cleanValue(\n    caseData.Engineering_Description_Text__c ??\n      caseData.Engineering_Description__c,\n    4000\n  ),\n  engineeringResolution: cleanValue(\n    caseData.Engineering_Resolution__c,\n    4000\n  ),\n  engineeringStatus: cleanValue(\n    caseData.Engineering_Status__c,\n    200\n  ),\n  fixedInVersion: cleanValue(\n    caseData.Engineering_Fixed_in_Version__c,\n    200\n  ),\n\n  existingResolutionSummary: cleanValue(\n    caseData.Resolution_Summary__c,\n    5000\n  ),\n\n  createdAt: normalizeDate(caseData.CreatedDate),\n  lastStatusChangeDate: normalizeDate(caseData.Last_Status_Change_Date__c),\n  resolutionDeliveredDate: normalizeDate(caseData.Resolution_Delivered_Date__c),\n  closedAt: normalizeDate(\n    caseData.Effective_Closed_Date__c ??\n      caseData.ClosedDate\n  ),\n  lastModifiedAt: normalizeDate(caseData.LastModifiedDate),\n\n  wasEscalated: Boolean(\n    caseData.IsEscalated ||\n      caseData.Is_Customer_Escalated__c\n  ),\n  wasReopened: Boolean(\n    caseData.Is_Reopened_Case__c ||\n      Number(caseData.Reopen_Count__c ?? 0) > 0\n  )\n};\n\n/**\n * Remove null fields from an object while preserving false and zero.\n */\nfunction removeNullFields(object) {\n  return Object.fromEntries(\n    Object.entries(object).filter(\n      ([, value]) =>\n        value !== null &&\n        value !== undefined &&\n        value !== \"\"\n    )\n  );\n}\n\nconst payload = {\n  schemaVersion: \"1.0\",\n  purpose: \"case_resolution_summary\",\n  case: removeNullFields(normalizedCase),\n  timeline: {\n    emails,\n    feedItems,\n    tasks\n  },\n  recordCounts: {\n    emails: emails.length,\n    feedItems: feedItems.length,\n    tasks: tasks.length\n  }\n};\n\nreturn [\n  {\n    json: {\n      ok: true,\n      payload\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        7696,
+        2400
+      ],
+      "id": "2a7f03c0-4025-420c-9c91-6f4be444a87b",
+      "name": "Sanitize output to GPT3"
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://advantive.my.salesforce.com/services/data/v61.0/queryAll?q=' + encodeURIComponent(\"SELECT Id, ParentId, ActivityId, Subject, TextBody, HtmlBody, FromName, FromAddress, ToAddress, CcAddress, BccAddress, Incoming, Status, MessageDate, CreatedDate, IsExternallyVisible, HasAttachment, MessageIdentifier, ThreadIdentifier, ReplyToEmailMessageId, CreatedById FROM EmailMessage WHERE ParentId = '\" + $json.Id + \"' ORDER BY MessageDate ASC\") }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "id": "c89dd611-4a69-4203-a34a-ca3cba4e574b",
+      "name": "Get EmailMessages3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        7248,
+        2304
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "get",
+        "caseId": "={{ $json.Id }}"
+      },
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1.1,
+      "position": [
+        7248,
+        2112
+      ],
+      "id": "c48351cd-7fb0-4feb-96f6-1ff8e04dc0d6",
+      "name": "Get a case3",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://advantive.my.salesforce.com/services/data/v61.0/queryAll?q=' + encodeURIComponent(\"SELECT Id, ParentId, Type, Title, Body, IsRichText, Visibility, Status, RelatedRecordId, CreatedDate, CreatedById, InsertedById, CommentCount, HasContent FROM FeedItem WHERE ParentId = '\" + $json.Id + \"' ORDER BY CreatedDate ASC\") }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "id": "0c9630df-ff8b-4888-8736-c34b08afde5a",
+      "name": "Get FeedItems3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        7248,
+        2496
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ 'https://advantive.my.salesforce.com/services/data/v61.0/queryAll?q=' + encodeURIComponent(\"SELECT Id, WhatId, WhoId, Subject, Description, Type, TaskSubtype, Status, Priority, ActivityDate, CompletedDateTime, CallType, CallDisposition, CallDurationInSeconds, OwnerId, CreatedById, CreatedDate FROM Task WHERE WhatId = '\" + $json.Id + \"' ORDER BY CreatedDate ASC\") }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "salesforceOAuth2Api",
+        "options": {}
+      },
+      "id": "fd36c5f9-c904-4616-94fe-b61c0b49b865",
+      "name": "Get Tasks3",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        7248,
+        2688
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "getAll",
+        "limit": 1,
+        "options": {
+          "conditionsUi": {
+            "conditionValues": [
+              {
+                "field": "CaseNumber",
+                "value": "={{ $json.query.caseNumber }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1.1,
+      "position": [
+        7024,
+        2400
+      ],
+      "id": "083535b3-83ec-4a03-8347-ca4473250117",
+      "name": "Get Case Id by Case Number3",
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "path": "case-resolution/summary",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "ce8cb875-eb21-402a-8318-caf08115f92b",
+      "name": "GET Case Resolution Summary3",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        6576,
+        2400
+      ],
+      "webhookId": "case-resolution-summary-read"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "case-resolution/summary",
+        "responseMode": "responseNode",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "adbb3ac2-6246-42b2-a399-6e6aae5207a1",
+      "name": "POST Case Resolution Summary3",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        6576,
+        1568
+      ],
+      "webhookId": "case-resolution-summary-send"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5f577d17-54d5-45c2-89c8-47fdeb9e0f1f",
+              "leftValue": "={{ $json.headers['openai-gpt-id'] }}",
+              "rightValue": "g-6a55234622c48191aea0c8f4fbf74a6c",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        6800,
+        1568
+      ],
+      "id": "6b5f2ee9-26b6-4278-8695-4851dcc738e5",
+      "name": "If coming from Custom GPT POST3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5f577d17-54d5-45c2-89c8-47fdeb9e0f1f",
+              "leftValue": "={{ $json.headers['openai-gpt-id'] }}",
+              "rightValue": "g-6a55234622c48191aea0c8f4fbf74a6c",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        6800,
+        2400
+      ],
+      "id": "04f7ac12-ed91-4db3-a34d-f43fce9039b1",
+      "name": "If coming from Custom GPT GET3"
+    },
+    {
+      "parameters": {
+        "jsCode": "const request = $input.first().json;\nconst body = request.body || {};\nconst errors = [];\n\nconst cleanString = (value) => typeof value === 'string' ? value.trim() : '';\nconst caseNumber = cleanString(body.caseNumber);\nconst summary = cleanString(body.summary);\n\nif (!caseNumber) errors.push('caseNumber is required');\nif (!summary) errors.push('summary is required');\nif (body.resolutionSteps !== undefined && !Array.isArray(body.resolutionSteps)) {\n  errors.push('resolutionSteps must be an array of strings');\n}\n\nif (errors.length > 0) {\n  return [{\n    json: {\n      ok: false,\n      statusCode: 400,\n      error: 'Validation failed',\n      details: errors\n    }\n  }];\n}\n\nconst store = $getWorkflowStaticData('global');\nstore.caseResolutionSummaries = store.caseResolutionSummaries || {};\n\nconst now = new Date().toISOString();\nconst record = {\n  ok: true,\n  action: 'sendCaseResolutionSummary',\n  caseNumber,\n  summary,\n  resolutionStatus: cleanString(body.resolutionStatus) || 'resolved',\n  customerImpact: cleanString(body.customerImpact) || undefined,\n  rootCause: cleanString(body.rootCause) || undefined,\n  resolutionSteps: Array.isArray(body.resolutionSteps) ? body.resolutionSteps.map(String).filter(Boolean) : [],\n  resolvedBy: cleanString(body.resolvedBy) || undefined,\n  resolvedAt: cleanString(body.resolvedAt) || now,\n  sourceSystem: cleanString(body.sourceSystem) || undefined,\n  metadata: body.metadata && typeof body.metadata === 'object' && !Array.isArray(body.metadata) ? body.metadata : {},\n  storedAt: now\n};\n\nstore.caseResolutionSummaries[caseNumber] = record;\n\nreturn [{ json: record }];"
+      },
+      "id": "69f63c87-fc7b-4159-b80d-c4aa7c103857",
+      "name": "Validate and Store Summary3",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        7024,
+        1568
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "id": "cond1",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "6df55086-d54e-46be-893d-4359c300ef26",
+      "name": "Valid?3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        7248,
+        1568
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode || 400 }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "id": "8b3c9384-5823-414f-b734-f65aa2fb2410",
+      "name": "Respond Validation Error3",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        7472,
+        1664
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "update",
+        "caseId": "={{ $json.Id }}",
+        "updateFields": {
+          "customFieldsUi": {
+            "customFieldsValues": [
+              {
+                "fieldId": "Resolution_Summary__c",
+                "value": "={{ $('Validate and Store Summary3').item.json.summary }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "68d31a26-1f1f-4099-8384-21a43b714b96",
+      "name": "Update Case Resolution3",
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1,
+      "position": [
+        7696,
+        1392
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { ok: true, action: 'sendCaseResolutionSummary', caseNumber: $('Validate and Store Summary3').item.json.caseNumber, summary: $('Validate and Store Summary3').item.json.summary, salesforceUpdated: true, message: 'Resolution saved to Salesforce.' } }}",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "id": "fe9982b6-7971-445b-a81b-888b07ce8b09",
+      "name": "Respond Success3",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        7920,
+        1344
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { ok: false, statusCode: 500, error: 'Salesforce update failed', details: $json.message || $json.error || 'Unknown error', caseNumber: $('Validate and Store Summary3').item.json.caseNumber } }}",
+        "options": {
+          "responseCode": 500,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Cache-Control",
+                "value": "no-store"
+              }
+            ]
+          }
+        }
+      },
+      "id": "79d64931-4d91-40b4-a9a2-3df7b5619c79",
+      "name": "Respond Salesforce Error3",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        7920,
+        1568
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "case",
+        "operation": "getAll",
+        "limit": 1,
+        "options": {
+          "conditionsUi": {
+            "conditionValues": [
+              {
+                "field": "CaseNumber",
+                "value": "={{ $json.caseNumber }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "306a8cb4-fea1-4ed0-a32d-4dc88e9c949e",
+      "name": "Find Case POST3",
+      "type": "n8n-nodes-base.salesforce",
+      "typeVersion": 1.1,
+      "position": [
+        7472,
+        1472
+      ],
+      "credentials": {
+        "salesforceOAuth2Api": {
+          "id": "zRAf2lM3nxuEpTk8",
+          "name": "Advantive Salesforce"
+        }
+      },
+      "onError": "continueErrorOutput"
+    }
+  ],
+  "pinData": {
+    "GET Case Resolution Summary": [
+      {
+        "json": {
+          "headers": {
+            "host": "advantive.app.n8n.cloud",
+            "user-agent": "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; ChatGPT-User/1.0; +https://openai.com/bot",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "52.242.245.221",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "US",
+            "cf-ray": "a1bba7d79b3ca0d5-ORD",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "openai-conversation-id": "9ff65be0-c81b-5ab9-a6c9-38983804cc5c",
+            "openai-ephemeral-user-id": "33f7030d-2a85-55d0-b577-5b5a1b013d67",
+            "openai-gpt-id": "g-6a55234622c48191aea0c8f4fbf74a6c",
+            "traceparent": "00-91c054b5c6484918e6efa905955add90-c518ec543bc29fef-00",
+            "tracestate": "dd=p:af2d3fd04ab6c520;s:-1;t.dm:-3;t.tid:6a57f33a00000000",
+            "x-datadog-parent-id": "12622815494428607776",
+            "x-datadog-sampling-priority": "-1",
+            "x-datadog-tags": "_dd.p.tid=6a57f33a00000000,_dd.p.dm=-3",
+            "x-datadog-trace-id": "15151975455156152739",
+            "x-forwarded-for": "52.242.245.221, 104.22.62.68",
+            "x-forwarded-host": "advantive.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-45-758d9d6c7b-jhtvw",
+            "x-is-trusted": "yes",
+            "x-real-ip": "52.242.245.221",
+            "x-request-id": "21394bb6-6d99-4dfe-a12d-1a2519f02a2d/slxx"
+          },
+          "params": {},
+          "query": {
+            "caseNumber": "00786393"
+          },
+          "body": {},
+          "webhookUrl": "https://advantive.app.n8n.cloud/webhook/case-resolution/summary",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "GET Case Resolution Summary4": [
+      {
+        "json": {
+          "headers": {
+            "host": "advantive.app.n8n.cloud",
+            "user-agent": "Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko); compatible; ChatGPT-User/1.0; +https://openai.com/bot",
+            "accept": "*/*",
+            "accept-encoding": "gzip, br",
+            "cdn-loop": "cloudflare; loops=1; subreqs=1",
+            "cf-connecting-ip": "52.242.245.221",
+            "cf-ew-via": "15",
+            "cf-ipcountry": "US",
+            "cf-ray": "a1bba7d79b3ca0d5-ORD",
+            "cf-visitor": "{\"scheme\":\"https\"}",
+            "cf-worker": "n8n.cloud",
+            "content-type": "application/json",
+            "openai-conversation-id": "9ff65be0-c81b-5ab9-a6c9-38983804cc5c",
+            "openai-ephemeral-user-id": "33f7030d-2a85-55d0-b577-5b5a1b013d67",
+            "openai-gpt-id": "g-6a55234622c48191aea0c8f4fbf74a6c",
+            "traceparent": "00-91c054b5c6484918e6efa905955add90-c518ec543bc29fef-00",
+            "tracestate": "dd=p:af2d3fd04ab6c520;s:-1;t.dm:-3;t.tid:6a57f33a00000000",
+            "x-datadog-parent-id": "12622815494428607776",
+            "x-datadog-sampling-priority": "-1",
+            "x-datadog-tags": "_dd.p.tid=6a57f33a00000000,_dd.p.dm=-3",
+            "x-datadog-trace-id": "15151975455156152739",
+            "x-forwarded-for": "52.242.245.221, 104.22.62.68",
+            "x-forwarded-host": "advantive.app.n8n.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "traefik-prod-users-gwc-45-758d9d6c7b-jhtvw",
+            "x-is-trusted": "yes",
+            "x-real-ip": "52.242.245.221",
+            "x-request-id": "21394bb6-6d99-4dfe-a12d-1a2519f02a2d/slxx"
+          },
+          "params": {},
+          "query": {
+            "caseNumber": "00786393"
+          },
+          "body": {},
+          "webhookUrl": "https://advantive.app.n8n.cloud/webhook/case-resolution/summary",
+          "executionMode": "production"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Find Case POST": {
+      "main": [
+        [
+          {
+            "node": "Update Case Resolution",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Salesforce Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Find Case1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Case1": {
+      "main": [
+        [
+          {
+            "node": "Update Resolution1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Resolution1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Sanitize output to GPT",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sanitize output to GPT": {
+      "main": [
+        [
+          {
+            "node": "Respond Read Summary1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get EmailMessages": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get a case": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get FeedItems": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Get Tasks": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Get Case Id by Case Number": {
+      "main": [
+        [
+          {
+            "node": "Get a case",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get EmailMessages",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get FeedItems",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Case Resolution Summary": {
+      "main": [
+        [
+          {
+            "node": "If coming from Custom GPT GET",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST Case Resolution Summary": {
+      "main": [
+        [
+          {
+            "node": "If coming from Custom GPT POST",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If coming from Custom GPT POST": {
+      "main": [
+        [
+          {
+            "node": "Validate and Store Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If coming from Custom GPT GET": {
+      "main": [
+        [
+          {
+            "node": "Get Case Id by Case Number",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate and Store Summary": {
+      "main": [
+        [
+          {
+            "node": "Valid?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valid?": {
+      "main": [
+        [
+          {
+            "node": "Find Case POST",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Validation Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Case Resolution": {
+      "main": [
+        [
+          {
+            "node": "Respond Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Salesforce Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Find Case",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Case": {
+      "main": [
+        [
+          {
+            "node": "Update Resolution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Resolution": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Sanitize output to GPT1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sanitize output to GPT1": {
+      "main": [
+        [
+          {
+            "node": "Respond Read Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get EmailMessages1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get a case1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get FeedItems1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Get Tasks1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Get Case Id by Case Number1": {
+      "main": [
+        [
+          {
+            "node": "Get a case1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get EmailMessages1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get FeedItems1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Tasks1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Case Resolution Summary1": {
+      "main": [
+        [
+          {
+            "node": "If coming from Custom GPT GET1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST Case Resolution Summary1": {
+      "main": [
+        [
+          {
+            "node": "If coming from Custom GPT POST1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If coming from Custom GPT POST1": {
+      "main": [
+        [
+          {
+            "node": "Validate and Store Summary1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If coming from Custom GPT GET1": {
+      "main": [
+        [
+          {
+            "node": "Get Case Id by Case Number1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate and Store Summary1": {
+      "main": [
+        [
+          {
+            "node": "Valid?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valid?1": {
+      "main": [
+        [
+          {
+            "node": "Find Case POST1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Validation Error1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Case Resolution1": {
+      "main": [
+        [
+          {
+            "node": "Respond Success1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Salesforce Error1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Case POST1": {
+      "main": [
+        [
+          {
+            "node": "Update Case Resolution1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Salesforce Error1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook3": {
+      "main": [
+        [
+          {
+            "node": "Find Case3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Case3": {
+      "main": [
+        [
+          {
+            "node": "Update Resolution3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Resolution3": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "Sanitize output to GPT3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sanitize output to GPT3": {
+      "main": [
+        [
+          {
+            "node": "Respond Read Summary3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get EmailMessages3": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Get a case3": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Account Info1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get FeedItems3": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Get Tasks3": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Get Case Id by Case Number3": {
+      "main": [
+        [
+          {
+            "node": "Get a case3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get EmailMessages3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get FeedItems3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Tasks3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GET Case Resolution Summary3": {
+      "main": [
+        [
+          {
+            "node": "If coming from Custom GPT GET3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST Case Resolution Summary3": {
+      "main": [
+        [
+          {
+            "node": "If coming from Custom GPT POST3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If coming from Custom GPT POST3": {
+      "main": [
+        [
+          {
+            "node": "Validate and Store Summary3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If coming from Custom GPT GET3": {
+      "main": [
+        [
+          {
+            "node": "Get Case Id by Case Number3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate and Store Summary3": {
+      "main": [
+        [
+          {
+            "node": "Valid?3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Valid?3": {
+      "main": [
+        [
+          {
+            "node": "Find Case POST3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Validation Error3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Case Resolution3": {
+      "main": [
+        [
+          {
+            "node": "Respond Success3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Salesforce Error3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find Case POST3": {
+      "main": [
+        [
+          {
+            "node": "Update Case Resolution3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond Salesforce Error3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": true,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "timeSavedPerExecution": 5
+  },
+  "versionId": "cffd0804-790c-4eb9-93e7-a1e42ffa8ad3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "a76243752dfe8af4b52915221f05ed09fb68f254f26dc282b6d16b0edf3913af"
+  },
+  "nodeGroups": [],
+  "id": "zj9helBw55x27Hmt",
+  "tags": []
+}

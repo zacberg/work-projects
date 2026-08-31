@@ -1,0 +1,47 @@
+{
+  "_comment": "SCHEMA EXAMPLE ONLY — fully fictional. The real employee_summaries_data.json contains confidential performance data and is git-ignored. This file documents the structure the agent reads/writes.",
+  "processed_transcripts": [
+    {
+      "file_name": "Example Department Calibration 2026-01-20.docx",
+      "session": "Example Department Calibration",
+      "date": "2026-01-20",
+      "processed_on": "2026-01-22"
+    }
+  ],
+  "employees": [
+    {
+      "legal_name": "Jane Q. Example",
+      "preferred_name": "Jane",
+      "manager": "Sample Manager",
+      "department": "Example Department",
+      "sessions_discussed": [
+        "Example Department Calibration - January 20"
+      ],
+      "commentary": [
+        {
+          "session": "Example Department Calibration",
+          "date": "2026-01-20",
+          "comments": [
+            "Positive remark made about the employee in the meeting (paraphrased).",
+            "Cautionary or developmental note raised by the room (paraphrased)."
+          ],
+          "score_changes": [
+            {
+              "dimension": "Performance",
+              "original_score": 3.5,
+              "new_score": 4.0,
+              "reason": "Transcript-backed rationale for why the room adjusted the score."
+            },
+            {
+              "dimension": "Winning Attitude",
+              "original_score": null,
+              "new_score": 4.5,
+              "reason": "Score was not previously set; room established it this session."
+            }
+          ],
+          "final_tier": "Example tier label (only if the room actually stated one)"
+        }
+      ]
+    }
+  ]
+}

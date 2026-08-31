@@ -1,0 +1,26 @@
+# ──────────────────────────────────────────────────────────────
+# CONFIDENTIAL HR DATA — must never be committed to git.
+# This agent processes confidential employee performance data.
+# That data lives only in SharePoint, never in this repository.
+# ──────────────────────────────────────────────────────────────
+
+# Live structured record (real names, scores, tiers) — schema-only sample is committed instead
+employee_summaries_data.json
+
+# Generated employee summary documents
+*.docx
+*.doc
+Employee Summaries/
+Employee*Summaries*/
+
+# Census / transcripts (in case any are ever copied locally)
+*Census*.xlsx
+*Census*.xls
+Calibration Transcripts/
+*Transcript*.docx
+
+# Misc
+.DS_Store
+Thumbs.db
+*.tmp
+~$*

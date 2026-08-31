@@ -1,0 +1,128 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Case Resolution Summary Push",
+    "version": "3.0.0",
+    "description": "Reads case detail and pushes resolution summaries via production n8n webhook."
+  },
+  "servers": [
+    {
+      "url": "https://advantive.app.n8n.cloud",
+      "description": "Advantive n8n production server"
+    }
+  ],
+  "security": [],
+  "paths": {
+    "/webhook/case-resolution/summary": {
+      "post": {
+        "operationId": "pushResolution",
+        "summary": "Save a case resolution summary",
+        "description": "Saves a resolution summary using the Salesforce case number.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "caseNumber",
+                  "summary"
+                ],
+                "properties": {
+                  "caseNumber": {
+                    "type": "string",
+                    "description": "The human-readable Salesforce CaseNumber (e.g. \"00786393\"), the same number used in readCaseDetail.",
+                    "example": "00786393"
+                  },
+                  "summary": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Only the four-section resolution block: Query, How It Was Resolved, Additional Considerations, and How to Prevent it from happening again.",
+                    "example": "**Query:**\nThe customer could not complete the requested workflow.\n\n**How It Was Resolved:**\nThe configuration was corrected and the workflow was successfully retested.\n\n**Additional Considerations:**\nThe account had an incorrect system configuration that caused the failure.\n\n**How to Prevent it from happening again:**\nValidate the required configuration before enabling the workflow.\n"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The case resolution summary was saved successfully."
+          },
+          "400": {
+            "description": "The request is missing a valid caseNumber or summary."
+          },
+          "500": {
+            "description": "The server could not save the case resolution summary."
+          }
+        }
+      },
+      "get": {
+        "operationId": "readCaseDetail",
+        "summary": "Read full case detail by case number",
+        "description": "Returns the live Salesforce case plus its EmailMessages, FeedItems, and Tasks for the given case number. Replaces the built-in Salesforce connector, since Actions and connector Apps cannot both be enabled on the same GPT.",
+        "parameters": [
+          {
+            "name": "caseNumber",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The human-readable Salesforce CaseNumber (e.g. \"00786393\"), not the record Id.",
+            "example": "00786393"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Case found; returns the case record plus its email messages, feed items, and tasks.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "case": {
+                      "type": "object",
+                      "description": "The live Salesforce Case record (all standard + custom fields returned by the case lookup)."
+                    },
+                    "emailMessages": {
+                      "type": "array",
+                      "description": "EmailMessage records for this case, ordered oldest to newest. This is the case feed.",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "feedItems": {
+                      "type": "array",
+                      "description": "Chatter FeedItem records for this case, ordered oldest to newest.",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "tasks": {
+                      "type": "array",
+                      "description": "Task records related to this case, ordered oldest to newest.",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The caseNumber query parameter is missing."
+          },
+          "404": {
+            "description": "The case does not exist or is inaccessible."
+          }
+        }
+      }
+    }
+  }
+}

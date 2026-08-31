@@ -1,0 +1,3131 @@
+{
+  "_mode": "hybrid-live",
+  "_generatedAt": "2026-06-11T13:15:08.526301+00:00",
+  "_sources": {
+    "ns": "NetSuite production (live SuiteQL)",
+    "sf": "Salesforce production (live)"
+  },
+  "_stats": {
+    "nsCustomers": 547,
+    "sfAccounts": 11782,
+    "matchedAccounts": 542
+  },
+  "overdueBalance": {
+    "total": 1861466,
+    "accountCount": 222
+  },
+  "atRisk": {
+    "total": 1861466,
+    "accountCount": 222,
+    "topAccounts": [
+      {
+        "id": "670802",
+        "name": "Mars Information Services, Inc. (Hackettstown, NJ)",
+        "balance": 149327,
+        "dpd": 94
+      },
+      {
+        "id": "338795",
+        "name": "Marx Foods (Atlantic Highlands, NJ) (Newark, NJ)",
+        "balance": 117420,
+        "dpd": 439
+      },
+      {
+        "id": "582018",
+        "name": "Means Transform & BN (Saginaw, MI)",
+        "balance": 85032,
+        "dpd": 76
+      },
+      {
+        "id": "761106",
+        "name": "Boston Scientific Corporation (Maple Grove, MN)",
+        "balance": 57480,
+        "dpd": 96
+      },
+      {
+        "id": "715045",
+        "name": "PepsiCo (Dallas, TX)",
+        "balance": 55027,
+        "dpd": 100
+      }
+    ]
+  },
+  "dpdBreakdown": [
+    {
+      "bucket": "60–89 DPD",
+      "accounts": 56,
+      "balance": 399184
+    },
+    {
+      "bucket": "90–119 DPD",
+      "accounts": 43,
+      "balance": 629817
+    },
+    {
+      "bucket": "120–179 DPD",
+      "accounts": 49,
+      "balance": 301954
+    },
+    {
+      "bucket": "180–364 DPD",
+      "accounts": 63,
+      "balance": 372339
+    },
+    {
+      "bucket": "365+ DPD",
+      "accounts": 11,
+      "balance": 158172
+    }
+  ],
+  "supportHolds": {
+    "onHoldCount": 120,
+    "onHoldBalance": 968350,
+    "missingHoldCount": 103,
+    "missingHoldBalance": 1026175
+  },
+  "placementQueue": {
+    "eligibleCount": 110,
+    "eligibleBalance": 990369,
+    "blockedCount": 112,
+    "topAccounts": [
+      {
+        "id": "670802",
+        "name": "Mars Information Services, Inc. (Hackettstown, NJ)",
+        "balance": 149327,
+        "dpd": 94
+      },
+      {
+        "id": "582018",
+        "name": "Means Transform & BN (Saginaw, MI)",
+        "balance": 85032,
+        "dpd": 76
+      },
+      {
+        "id": "715045",
+        "name": "PepsiCo (Dallas, TX)",
+        "balance": 55027,
+        "dpd": 100
+      },
+      {
+        "id": "388261",
+        "name": "All Kurma Sdn Bhd (Simpang Ampat)",
+        "balance": 44710,
+        "dpd": 251
+      },
+      {
+        "id": "463046",
+        "name": "Joy Accessories Inc (New Britain, CT)",
+        "balance": 42036,
+        "dpd": 100
+      }
+    ]
+  },
+  "writeOffPool": {
+    "candidateCount": 74,
+    "candidateBalance": 372165,
+    "topAccounts": [
+      {
+        "id": "388261",
+        "name": "All Kurma Sdn Bhd (Simpang Ampat)",
+        "balance": 40421,
+        "dpd": 251
+      },
+      {
+        "id": "587923",
+        "name": "Construction Interior Products (Houston, TX)",
+        "balance": 35643,
+        "dpd": 327
+      },
+      {
+        "id": "338795",
+        "name": "Marx Foods (Atlantic Highlands, NJ) (Newark, NJ)",
+        "balance": 33708,
+        "dpd": 439
+      },
+      {
+        "id": "323885",
+        "name": "Detroit Diesel Corporation (Detroit, MI)",
+        "balance": 18302,
+        "dpd": 250
+      },
+      {
+        "id": "168697",
+        "name": "Bmax (Orion, MI)",
+        "balance": 18182,
+        "dpd": 190
+      }
+    ]
+  },
+  "legalBlocked": {
+    "count": 1,
+    "balance": 4215
+  },
+  "demandLetterQueue": {
+    "count": 110,
+    "balance": 990369
+  },
+  "extremeDPD": {
+    "count": 11,
+    "balance": 69220
+  },
+  "stopHoldOverrides": {
+    "count": 21,
+    "balance": 356152
+  },
+  "strategicWatch": {
+    "count": 38,
+    "balance": 394735
+  },
+  "possiblePendingHolds": {
+    "count": 49,
+    "balance": 385892
+  },
+  "collectionsReps": [
+    {
+      "rep": "Unassigned",
+      "accounts": 48,
+      "balance": 381603
+    },
+    {
+      "rep": "Alin Florita",
+      "accounts": 9,
+      "balance": 267189
+    },
+    {
+      "rep": "Percival Javier",
+      "accounts": 24,
+      "balance": 206368
+    },
+    {
+      "rep": "Giezel Anne Gaveria",
+      "accounts": 9,
+      "balance": 165934
+    },
+    {
+      "rep": "Aiza Domingo",
+      "accounts": 27,
+      "balance": 134875
+    },
+    {
+      "rep": "Mina Pascual",
+      "accounts": 19,
+      "balance": 134718
+    },
+    {
+      "rep": "Marvin Timbol",
+      "accounts": 20,
+      "balance": 130220
+    },
+    {
+      "rep": "Keith J Reviello",
+      "accounts": 9,
+      "balance": 97839
+    },
+    {
+      "rep": "Thimothy Cabildo",
+      "accounts": 3,
+      "balance": 74097
+    },
+    {
+      "rep": "Kelsea Meyers",
+      "accounts": 8,
+      "balance": 56232
+    }
+  ],
+  "holdsComparison": {
+    "sfHoldCount": 317,
+    "sfHolds": [
+      {
+        "name": "Saber Diamond Tools, Inc. (Villa Rica, GA)",
+        "accountManager": "Matt Bush",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Murray Supply Corp. (Medford, Massachusetts)",
+        "accountManager": "Laurie Verderame",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Hvac Depot Incorporated (Brooklyn, New York) (Brooklyn, NY)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Mid-America Marketing, Inc. (Memphis, Tennessee) (Memphis, TN)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Hanover Supply Co (East Hanover, NJ)",
+        "accountManager": "Open - RevOps",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Baxter International Inc. (Deerfield, IL)",
+        "accountManager": "James Wilcox",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Shi International Corp. (Somerset, NJ)",
+        "accountManager": "John Mullins",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "Owens Corning Corporate Services, LLC (Toledo, OH)",
+        "accountManager": "Matt Bush",
+        "rep": "Aiza Domingo; Percival Javier"
+      },
+      {
+        "name": "Three Way Plumbing Supply Bath Design Center Inc. (Astoria, NY)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Mina Pascual; Kelsea Meyers"
+      },
+      {
+        "name": "NAMPAK BEVCAN NIGERIA LIMITED (Agbara) (Agbara, Ogun State, )",
+        "accountManager": "James Wilcox",
+        "rep": "Aiza Domingo; Iulia Cinpoeru"
+      },
+      {
+        "name": "M. F. Huseby Co., Inc. (Los Angeles, California) (Los Angeles, CA)",
+        "accountManager": "Katrina Ryan",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "L.V. Adhesive, Inc. (Carlstadt, New Jersey) (Carlstadt, NJ)",
+        "accountManager": "Jack Logan",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Air Control Supply Co. Inc. (BOHEMIA, NY)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Giezel Anne Gaveria; Carl Alejandria"
+      },
+      {
+        "name": "Harbor Wholesale Electric Supply, Inc. (Fountain Valley, California)",
+        "accountManager": "Jack Logan",
+        "rep": "Percival Javier"
+      },
+      {
+        "name": "Great Neck Plumbing & Heating Supplies, Inc. (Great Neck, NY)",
+        "accountManager": "Open - RevOps",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Ingersoll Paper Box Co Limited (Ingersoll, ON)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Carl Alejandria"
+      },
+      {
+        "name": "Detroit Diesel Corporation (Detroit, MI)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Marvin Timbol"
+      },
+      {
+        "name": "A-Line Electrical Supply Inc. (Brooklyn, NY)",
+        "accountManager": "Jesse Ginn",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "JTEKT North America (Morristown, TN)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "The Boeing Company (Seattle, WA)",
+        "accountManager": "James Wilcox",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Mahle Engine Components Usa, Inc. (Farmington Hills, MI)",
+        "accountManager": "Andy Roop",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Becton, Dickinson and Company (Rantoul, IL)",
+        "accountManager": "Jeff Copeland",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Riverside Paper Supply Co. (Newport News, Virginia)",
+        "accountManager": "Jack Logan",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Ibs Industrial, LLC (Houston, Texas)",
+        "accountManager": "Open - RevOps",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Parker Hannifin Corporation (Fort Worth, TX)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Marvin Timbol"
+      },
+      {
+        "name": "Pacific Foods of Oregon, LLC (Tualatin, Oregon)",
+        "accountManager": "Matt Bush",
+        "rep": "Aiza Domingo; Iulia Cinpoeru"
+      },
+      {
+        "name": "Rising Sun Plumbing Supply, Inc. (Philadelphia, Pennsylvania)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Lange Plumbing Supply, Inc. (Tulare, California)",
+        "accountManager": "Laurie Verderame",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Kamen Wiping Materials Company (Wichita, KS)",
+        "accountManager": "Jesse Ginn",
+        "rep": "Alin Florita; Carl Alejandria"
+      },
+      {
+        "name": "Performance Seals Inc (HOUSTON, Texas)",
+        "accountManager": "Jack Logan",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "CARBAR INDUSTRIAL SA (Tijuana, Baja California)",
+        "accountManager": "Open - RevOps",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "Novartis Pharmaceuticals USA (Wilson, NC)",
+        "accountManager": "Matt Bush",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "G & A Pool Products, Inc. (Longview, Texas)",
+        "accountManager": "Jack Logan",
+        "rep": "Giezel Anne Gaveria; Carl Alejandria"
+      },
+      {
+        "name": "Teasdale Foods, Inc. (Louisville, Kentucky)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Hutchinson Sealing Systems, Inc. (Wytheville, VA)",
+        "accountManager": "Matt Bush",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Gopher Plumbing Specialty Company, Inc. (Saint Paul, Minnesota)",
+        "accountManager": "Open - RevOps",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "The Gates Corporation (Poplar Bluff, MO)",
+        "accountManager": "James Wilcox",
+        "rep": "Mina Pascual; Aiza Domingo"
+      },
+      {
+        "name": "Lee Distributors LLC (BROOKLYN, New York)",
+        "accountManager": "Laurie Verderame",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Williamsburg Plumbing Inc. (Monticello, New York)",
+        "accountManager": "Jack Logan",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Atlantic Paper and Twine Company, Inc. (Pawtucket, Rhode Island)",
+        "accountManager": "Katrina Ryan",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Raskin Industries LLC (DEERFIELD BEACH, Florida)",
+        "accountManager": "Jack Logan",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "Industrial Commercial Supply Company Inc (Fort Lauderdale, Florida)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Manor Electric Supply Corp. (Brooklyn, New York)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Deicing Depot LLC (Springfield, Massachusetts)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Southard Supply, Inc. (Columbus, Ohio)",
+        "accountManager": "Jesse Ginn",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Chromaflo Technologies Corporation (Ashtabula, Ohio)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Johnstone #35 (Troy, NY)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Arizona Climate Supply, Inc. (Phoenix, Arizona)",
+        "accountManager": "Jesse Ginn",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Gentex Corporation (Rancho Cucamonga, California)",
+        "accountManager": "James Wilcox",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Martinrea Internacional de México, S.A. de C.V. (Saltillo, Coahuila)",
+        "accountManager": "Matt Bush",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Able Plumbing Supply Company (Philadelphia, Pennsylvania)",
+        "accountManager": "Laurie Verderame",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Hutchinson Sealing Systems, Inc. (Church Hill, Tennessee)",
+        "accountManager": "Matt Bush",
+        "rep": "Percival Javier; Carl Alejandria"
+      },
+      {
+        "name": "Central Trailer Supply, Inc. (ALBUQUERQUE, New Mexico)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Infinera Corporation (Sunnyvale, California)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Giezel Anne Gaveria; Carl Alejandria"
+      },
+      {
+        "name": "AB Mauri Food Inc. (St. Louis, MO) - N.A. HQ",
+        "accountManager": "James Wilcox",
+        "rep": "Carl Alejandria; Percival Javier"
+      },
+      {
+        "name": "Triple A Supplies, Inc. (Newburgh)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "AROSUCO AROMAS E SUCOS LTDA (Manaus, Amazonas)",
+        "accountManager": "Jeff Copeland",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "The Nut Place Inc (HOUSTON, Texas)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "L & M Foodservice/BT Division (Bullhead, AZ)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Rochester Restaurant Inc (Rochester, Minnesota)",
+        "accountManager": "Open - RevOps",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Duke Distributing (San Antonio, Texas)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "Camfil USA (Denver, CO)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "The Appolo Greek Food & Pastries Inc (Washington, DC)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Novares US LLC (Livonia, Michigan)",
+        "accountManager": "James Byrne",
+        "rep": "Amber Bourque; Aiza Domingo"
+      },
+      {
+        "name": "Crestview Wholesale Building Supply, Inc. -  (Crestview, Florida)",
+        "accountManager": "Jack Logan",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Ensambles Formula, S.A. de C.V. (Tecate, Baja California)",
+        "accountManager": "Open - RevOps",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Berry Global (Sarasota, FL)",
+        "accountManager": "James Wilcox",
+        "rep": "Carl Alejandria"
+      },
+      {
+        "name": "Astro Designs & Renovations Inc (Ottawa, Ontario)",
+        "accountManager": "Laurie Verderame",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Brown Janitor Supply, Inc. (Little Rock, Arkansas)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Zero Centre Pointe LLC (North Hollywood, California)",
+        "accountManager": "Open - RevOps",
+        "rep": "Percival Javier"
+      },
+      {
+        "name": "Meravic, Inc. (Grain Valley, Missouri)",
+        "accountManager": "Jack Logan",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Northern California Gloves (Redding, California)",
+        "accountManager": "Laurie Verderame",
+        "rep": "Alin Florita; Amber Bourque"
+      },
+      {
+        "name": "Parker Hannifin Corporation (Union City, PA)",
+        "accountManager": "James Wilcox",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "NY Plumbing Wholesale and Supply Inc. (New York, New York)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Giezel Anne Gaveria; Aiza Domingo"
+      },
+      {
+        "name": "RepWest (Racho Cordova, CA)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Worldpak Flexible Packaging LLC (Reno, Nevada)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "Unipak, Inc. (West Chester, PA)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "Plumbing Parts Company, Inc. (Las Vegas, Nevada)",
+        "accountManager": "Open - RevOps",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Allegion - Schlage Lock (San Diego, CA)",
+        "accountManager": "James Wilcox",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Skilman Hardware, Inc. (Long Island City, New York)",
+        "accountManager": "Open - RevOps",
+        "rep": "Percival Javier"
+      },
+      {
+        "name": "HTA Products Inc (Richmond, British Columbia)",
+        "accountManager": "Jesse Ginn",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Bay State Plumbing and Heating Supply Co., Inc. (Springfield, MA)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "The Bountiful Company (Holbrook, NY)",
+        "accountManager": "Open - RevOps",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Jlc Industries, Inc. (Redford Charter TWP, Michigan)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "C H Peters Co (Racine, Wisconsin)",
+        "accountManager": "Jack Logan",
+        "rep": "Carl Alejandria"
+      },
+      {
+        "name": "Wecan Logistics and Supply, LLC (ARDMORE, Oklahoma)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Carl Alejandria"
+      },
+      {
+        "name": "Corning Pharmaceutical Glass, LLC (Vineland, New Jersey)",
+        "accountManager": "Andy Roop",
+        "rep": "Amber Bourque; Alin Florita"
+      },
+      {
+        "name": "J. & K. Electrical Supply Co. (Johnston, Rhode Island)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Valencia Wholesale, Inc. (Tampa, Florida)",
+        "accountManager": "Open - RevOps",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Supreme Lighting LLC (Brooklyn, New York) (Site)",
+        "accountManager": "Jill LeCroy",
+        "rep": "Giezel Anne Gaveria; Marvin Timbol"
+      },
+      {
+        "name": "Washburn Plumbing & Heating Supply Company Inc (Portsmouth, NH)",
+        "accountManager": "Open - RevOps",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Swiss-Tech, LLC (Delavan, Wisconsin)",
+        "accountManager": "Jeff Copeland",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "Boston Scientific Corporation (Maple Grove, MN)",
+        "accountManager": "James Wilcox",
+        "rep": "Giezel Anne Gaveria; Amber Bourque"
+      },
+      {
+        "name": "Coca-Cola Beverages Vietnam Limited Liability Company (Ho Chi Minh City)",
+        "accountManager": "Becca McKenzie",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Gerresheimer Querétaro, S.A. (Querétaro)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Carl Alejandria; Alin Florita"
+      },
+      {
+        "name": "Fenwal International Inc. (Haina)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "SKOON SKIN CARE PTY LTD (Western Cape, Cape Town)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Aiza Domingo; Amber Bourque"
+      },
+      {
+        "name": "Schlage Lock Company LLC (Colorado Springs, CO)",
+        "accountManager": "Scott Biros",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Commercial Vehicle Group, Inc. (New Albany, OH)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Metro Distributors Inc (CRANSTON, RI)",
+        "accountManager": "Anthony Cella",
+        "rep": "Shany Manzur"
+      },
+      {
+        "name": "Harmco Fastener Company, Inc. (Rochester)",
+        "accountManager": "Jack Logan",
+        "rep": "Carl Alejandria; Amber Bourque"
+      },
+      {
+        "name": "Spectrum Packaging Corporation (Orlando, FL) (Orlando, ) (Orlando, )",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Jordan Duke"
+      },
+      {
+        "name": "Beauty Solutions, LLC (Santa Cruz, CA)",
+        "accountManager": "Anthony Cella",
+        "rep": "Shany Manzur"
+      },
+      {
+        "name": "Key Fasteners Corp. (Berne) (Berne, IN)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Fresenius (Maricao, PR)",
+        "accountManager": "Matt Bush",
+        "rep": "Marvin Timbol; Amber Bourque"
+      },
+      {
+        "name": "Baker Manufacturing Company, LLC. (Evansville, WI)",
+        "accountManager": "James Wilcox",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Winzer Corporation (Plano, TX)",
+        "accountManager": "Brady Bjornson",
+        "rep": "Shany Manzur"
+      },
+      {
+        "name": "ROI Packaging (Wilmington, DE)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Jordan Duke"
+      },
+      {
+        "name": "Energizer Holdings, Inc. (St Louis, MO - HQ)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "DriveKore, Inc. (Mechanicsburg, PA)",
+        "accountManager": "Jack Logan",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Software One, Inc. (Milwaukee, WI) (Milwaukee, WI)",
+        "accountManager": "Sam Sorrentino",
+        "rep": "Giezel Anne Gaveria; Aiza Domingo"
+      },
+      {
+        "name": "Materion Electronic Materials (Brewster, NY)",
+        "accountManager": "Matt Bush",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Teknia Group (Mt. Juliet, TN)",
+        "accountManager": "Matt Bush",
+        "rep": "Mina Pascual; Andrew Mayorga"
+      },
+      {
+        "name": "Carrier Corporation (Indianapolis, IN)",
+        "accountManager": "Matt Bush",
+        "rep": "Carl Alejandria; Alin Florita"
+      },
+      {
+        "name": "Merck Sharp & Dohme LLC (Las Piedras, PR)",
+        "accountManager": "Open - RevOps",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Tenneco (Reynosa, Tamaulipas) (Hidalgo, TX)",
+        "accountManager": "Andy Roop",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Owens Corning (Tallmadge, OH) (Tallmadge, OH)",
+        "accountManager": "Open - RevOps",
+        "rep": "Giezel Anne Gaveria; Percival Javier"
+      },
+      {
+        "name": "Abbott Laboratories (Plymouth, MN - 5050 Nathan Lane N) - Abbott Medical",
+        "accountManager": "Becca McKenzie",
+        "rep": "Keith Reviello"
+      },
+      {
+        "name": "Cornerstone Supply Inc. (Madison, AL)",
+        "accountManager": "Jesse Ginn",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "Meritor, Inc. (Morganton, North Carolina)",
+        "accountManager": "James Wilcox",
+        "rep": "Aiza Domingo; Iulia Cinpoeru"
+      },
+      {
+        "name": "Becton Dickinson de México, S.A. de C.V. (Hermosillo, Sonora, Mexico)",
+        "accountManager": "Matt Bush",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Victor Manufacturing  (Victor, Iowa)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Mina Pascual; Iulia Cinpoeru"
+      },
+      {
+        "name": "Parker Hannifin Corporation (Salt Lake City, UT)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Rockford Fastener Inc (Rockford, IL)",
+        "accountManager": "Andy Roop",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "McKinley Paper and Packaging Company (Lancaster, TX)",
+        "accountManager": "Chuck Raymond",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Owens Corning (Cortland, IL)",
+        "accountManager": "James Wilcox",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "BALLARD POWER SYSTEMS (Burnaby, British Columbia)",
+        "accountManager": "Andy Roop",
+        "rep": "Carl Alejandria"
+      },
+      {
+        "name": "Evonik (Hopewell, VA)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Federal-Mogul (Blacksburg, VA)",
+        "accountManager": "James Wilcox",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Faultless Starch/Bon Ami (Kansas City, MO)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Carl Alejandria"
+      },
+      {
+        "name": "DATA DEVICE Corp (Bohemia, NY)",
+        "accountManager": "Andy Roop",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Harmac Medical Products - Ireland (Castlerea, RN)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Veyance Qingdao (Qingdao, Shandong)",
+        "accountManager": "Matt Bush",
+        "rep": "Giezel Anne Gaveria; Marvin Timbol"
+      },
+      {
+        "name": "Astellas Pharma Technologies (Norman, OK)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Aiza Domingo; Mina Pascual"
+      },
+      {
+        "name": "Tenere Inc. (Juarez, Nuevo Leon)",
+        "accountManager": "Andy Roop",
+        "rep": "Carl Alejandria; Giezel Anne Gaveria"
+      },
+      {
+        "name": "Tenneco Chachapa - Autopartes Walker, SA de CV (Amozoc de Mota, Puebla)",
+        "accountManager": "Andy Roop",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "The Kennedy Group (Willoughby, OH)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "Titan Tool & Die Ltd. (Windsor, Ontario)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Giezel Anne Gaveria; Carl Alejandria"
+      },
+      {
+        "name": "Moderna Alimentos SA (La Granja, Quito)",
+        "accountManager": "Andy Roop",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "SRG Global (Morehead, KY)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Fonterra (Cobden, Victoria)",
+        "accountManager": "James Wilcox",
+        "rep": "Carl Alejandria; Giezel Anne Gaveria"
+      },
+      {
+        "name": "Wilbur Curtis Co., Inc. (Montebello, CA)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "CT Concepts (EUGENE, OR)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Brembo (Apodaca, Nueva Leon)",
+        "accountManager": "James Wilcox",
+        "rep": "Marvin Timbol; Alin Florita"
+      },
+      {
+        "name": "Carlisle Interconnect Technologies (Franklin, WI)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "CertainTeed LLC Saint-Gobain (Russellville, Alabama)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Citadel Casing Solutions (Houston, TX)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Clicker Limited (Hong Kong, NA) (Tsuen Wan, ) (Tsuen Wan, 91)",
+        "accountManager": "James Wilcox",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Collins Aerospace (Anaheim, CA)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Commsa Mantenimiento, SA de CV (Frontera, Coahuila)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "3M/Aearo Technologies (Newark, DE)",
+        "accountManager": "James Wilcox",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "AAM - Novocast, S. de R.L. de C.V. (El Carmen, Nuevo Leon)",
+        "accountManager": "Sam Sorrentino",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "CPM Labs (Sacramento, CA)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Advance Turning & Mfg (Jackson, MI)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "PCC Structurals (San Leandro, CA)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "Driv de Mexico (Tepotzotlán, Estado de Mexico)",
+        "accountManager": "Andy Roop",
+        "rep": "Percival Javier; Carl Alejandria"
+      },
+      {
+        "name": "Airgas Specialty Gases (Plumsteadville, PA)",
+        "accountManager": "Andy Roop",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "Dr. John Hwang Professional Corporation (New Westminster, British Columbia)",
+        "accountManager": "Andy Roop",
+        "rep": "Amber Bourque; Aiza Domingo"
+      },
+      {
+        "name": "DuPont (Wilmington, DE)",
+        "accountManager": "Andy Roop",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "DuPont Specialty Products USA, LLC (Moncks Corner, SC)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Alkar Steel and Processing (Warren, MI)",
+        "accountManager": "James Wilcox",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Amro Fabricating (SOUTH EL MONTE, CA)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Destech (Tucson, Arizona)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Arkansas State Crime Lab (Little Rock, Arkansas)",
+        "accountManager": "Matt Bush",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Emerson Process Mgmt Valve Automation (Houston, TX) (Houston, TX)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Amber Bourque"
+      },
+      {
+        "name": "Emcore Fiber Optics (Alhambra, CA)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "Atrion Corporation/Halkey-Roberts (Allen, TX)",
+        "accountManager": "Andy Roop",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "AUTO METAL CRAFT INC (Oak Park, MI)",
+        "accountManager": "James Wilcox",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Flextronics (Memphis, TN) (Memphis, TN)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "Flowserve (Raleigh, NC)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Forja de Monterrey S.A. de C.V. (Nueva Leon, Monterrey)",
+        "accountManager": "Andy Roop",
+        "rep": "Carl Alejandria; Aiza Domingo"
+      },
+      {
+        "name": "GE Healthcare AS (Lindesnes)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Gestamp Aguascalientes, S.A. de C.V. (San Francisco de los Romo, Aguascalientes)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Harbison Fischer (Crowley, TX)",
+        "accountManager": "Andy Roop",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "HARSCO RAIL (West Columbia, SC)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Hitchiner Santiago (Santiago Tianguistenco)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Honda Transmission Mfg. (Marysville, OH)",
+        "accountManager": "Andy Roop",
+        "rep": "Giezel Anne Gaveria; Kelsea Meyers"
+      },
+      {
+        "name": "Hutchinson Technology Inc. Part of Resonetics. (Hutchinson, MN)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Marvin Timbol; Iulia Cinpoeru"
+      },
+      {
+        "name": "Pennex Aluminum Co (Leetonia, OH)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Pierburg US, LLC (Fountain Inn, SC)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Amber Bourque"
+      },
+      {
+        "name": "Jensar Manufacturing (Toledo, Ohio)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Parker Hannifin Corporation (Hiawatha, IA)",
+        "accountManager": "James Wilcox",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Kasai North America Inc. (Talladega, Alabama) (Talladega, AL)",
+        "accountManager": "Andy Roop",
+        "rep": "Mina Pascual; Marvin Timbol"
+      },
+      {
+        "name": "Par 4 Plastics, Inc. (Marion, KY)",
+        "accountManager": "Andy Roop",
+        "rep": "Alin Florita; Amber Bourque"
+      },
+      {
+        "name": "Kajan Perfection (Houma, LA)",
+        "accountManager": "Andy Roop",
+        "rep": "Giezel Anne Gaveria; Carl Alejandria"
+      },
+      {
+        "name": "PPG Coatings Services (Troy, MI)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Mina Pascual; Iulia Cinpoeru"
+      },
+      {
+        "name": "PQSI (Chennai, India)",
+        "accountManager": "James Wilcox",
+        "rep": "Carl Alejandria; Marvin Timbol"
+      },
+      {
+        "name": "Precision CNC (division of Rable Machine) (Lancaster, OH)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Carl Alejandria"
+      },
+      {
+        "name": "KS Kolbenschmidt US Inc (Marinette, WI)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Amber Bourque"
+      },
+      {
+        "name": "Raymundo's Food Group, LLC (Bedford Park, IL)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Lithgow Arms (Lithgow, New South Wales)",
+        "accountManager": "James Wilcox",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "Lincoln SKF (St. Louis, MO)",
+        "accountManager": "Andy Roop",
+        "rep": "Mina Pascual; Amber Bourque"
+      },
+      {
+        "name": "LM Wind Power (Gaspe, Quebec)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Ride Controls Mexicana, S de RL de CV (El Marques, Queretero)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Royal Canin SAS (Aimargues)",
+        "accountManager": "Alex Carpenter",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Maple Stamping (Concord, Ontario)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Aiza Domingo"
+      },
+      {
+        "name": "Safran Landing Systems Mexico, S.A. de C.V (Queretaro, Queretaro)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "Servilaminas Summit Mexicana, S.A. DE C.V. (Queretaro, Guanajuato)",
+        "accountManager": "Andy Roop",
+        "rep": "Carl Alejandria"
+      },
+      {
+        "name": "Sherex Fastening Solutions, LLC (Tonawanda, NY)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "Metaltest INC, (Kent, WA)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Carl Alejandria"
+      },
+      {
+        "name": "Microfabrica, Inc (Van Nuys, CA)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Michelin NA - ASRC (Louisville, KY)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "SilencerCo, LLC (West Valley City, UT)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Michigan Spring & Stamping (Muskegon, MI)",
+        "accountManager": "Andy Roop",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "Micro Facture, LLC (Mountville, PA)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Amber Bourque"
+      },
+      {
+        "name": "Nelson Labs (Salt Lake City, UT)",
+        "accountManager": "Andy Roop",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Stryten Communications PA (Lancaster, PA)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "North American Lighting (San Luis Potosi)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "T2 Biosystems Inc (Lexington, MA)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "Novitatech Australia (Regency Park, SA)",
+        "accountManager": "James Wilcox",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "Twigg Corp. (Martinsville, IN)",
+        "accountManager": "Andy Roop",
+        "rep": "Giezel Anne Gaveria; Carl Alejandria"
+      },
+      {
+        "name": "UNIFI (Madison, NC)",
+        "accountManager": "Andy Roop",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "US Farathane (Orion Twp., MI)",
+        "accountManager": "Andy Roop",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Westfield Steel Inc (Westfield, IN)",
+        "accountManager": "Andy Roop",
+        "rep": "Mina Pascual; Carl Alejandria"
+      },
+      {
+        "name": "Wm Dudek Mfg Company (Chicago, IL)",
+        "accountManager": "Andy Roop",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Zone Enterprises (St. Louis, MO)",
+        "accountManager": "James Wilcox",
+        "rep": "Aiza Domingo; Carl Alejandria"
+      },
+      {
+        "name": "Thermo Fisher Scientific - LinkedIn (St. Louis, MO)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Faurecia (Auburn Hills, MI)",
+        "accountManager": "Andy Roop",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Cleveland-Cliffs (Wallbridge, OH)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Grupo J Distribution Ltd. (Eugene, OR)",
+        "accountManager": "Frank Tappen",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "KDC (Knowlton, Quebec) (Knowlton, QC)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Cooper Standard Technical Services de Mexico, SRL de CV (Torreon, Coahuila)",
+        "accountManager": "James Wilcox",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Odyssey Medical Technologies (Bartlett, TN)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol; Carl Alejandria"
+      },
+      {
+        "name": "Amerimax - Duluth (Duluth, GA)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Stant (Connersville, IN)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Amcor Specialty Cartons Americas - Richmond (Chester, VA)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Aiza Domingo; Marvin Timbol"
+      },
+      {
+        "name": "H2scan, Incorporated (Valencia, CA)",
+        "accountManager": "Andy Roop",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Fraser Alexander Pty Ltd (Rosebank, Johannesburg)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Marvin Timbol; Andrew Mayorga"
+      },
+      {
+        "name": "Paragon Medical - Smithfield (Smithfield, UT)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Burkert Fluid Control Systems (Huntersville, NC)",
+        "accountManager": "Andy Roop",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Pure Prairie Poultry, Inc (Charles City, IA)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Freedom Run Farms DBA Bluegrass Lamb Company (Elizabethtown, KY)",
+        "accountManager": "James Byrne",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Mush Inc. (Salt Lake City, UT)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "California Shellfish Co, Inc (San Francisco, CA)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Pine Creek Pack LLC (Omak, WA)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Toor Farming LLC (Earlimart, CA)",
+        "accountManager": "James Byrne",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Central Grazing Company (Lawrence, KS)",
+        "accountManager": "James Byrne",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Masonite Corporation (Laurel, MS)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Marx Foods (Atlantic Highlands, NJ) (Newark, NJ)",
+        "accountManager": "James Byrne",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Telamon Evropa DOOEL Skopje (Skopje, )",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "CAIRE, Inc. (Buffalo, NY)",
+        "accountManager": "Andy Roop",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Holts Precision, Inc. (South Windsor, CT)",
+        "accountManager": "Matt Bush",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "SmartOps Pty LTD (Gauteng, )",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Percival Javier"
+      },
+      {
+        "name": "Littelfuse Semiconductor Wuxi Co., Ltd. (Wuxi, 32)",
+        "accountManager": "James Wilcox",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Henry Repeating Arms (Rice Lake, WI)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "BEAUCREST (Birmingham)",
+        "accountManager": "Robert Mabbutt",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "PACKAGE-IN (Suffolk)",
+        "accountManager": "Robert Mabbutt",
+        "rep": "Carl Alejandria"
+      },
+      {
+        "name": "JAMAICA PACKAGING INDUSTRY (Kingston, West Indiies)",
+        "accountManager": "Robert Mabbutt",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Kangaroo Logistics / DCS, Inc. (Vaudreuil-Dorion, QC)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Warehouse Anywhere - OH (Grove City, OH)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Black Mountain Fulfillment (Las Vegas, NV)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Warehouse Anywhere - CA (Torrance, CA)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "ColorArt / Tshirts.com - AR (Jonesboro, AR)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Lone Pine Logistics (Davidson, NC)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Rocket Fulfillment, LLC (Kenbridge, VA)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Photography.com (Houston, TX)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "AVID Logistics, Inc. (Gardena, CA)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Iulia Cinpoeru; Giezel Anne Gaveria"
+      },
+      {
+        "name": "MSL Packaging & Fulfillment (Indianapolis, IN)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Mina Pascual; Alin Florita"
+      },
+      {
+        "name": "NOVA Marketing Services (Maryland Heights, MT)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Test ABC Company",
+        "accountManager": "Open - RevOps",
+        "rep": null
+      },
+      {
+        "name": "Mossberg and Company (South Bend, IN)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Pittsburgh Mailing Systems (Pittsburgh, PA)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Ship Central (West Jordan, UT)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Torpedo Marketing (Vaughan, ON)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "McKay Press (Midland, MI)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Dome Printing (Mcclellan, CA)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "The Roark Group, Inc. (Rogers, AR)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Zarco Electronic Supply, Inc (El Paso, TX)",
+        "accountManager": "Andy Roop",
+        "rep": "Carl Alejandria"
+      },
+      {
+        "name": "Realm Artesian Water",
+        "accountManager": "James Byrne",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Arca Packaging Limited (West Horndon, Essex, )",
+        "accountManager": "Robert Mabbutt",
+        "rep": "Amber Bourque; Carl Alejandria"
+      },
+      {
+        "name": "Integer Holdings Corporation (Quakertown, PA) (Quakertown, PA)",
+        "accountManager": "James Wilcox",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Snackwise Solutions, Inc. (Santa Clara, CA)",
+        "accountManager": "Anthony Cella",
+        "rep": "Shany Manzur"
+      },
+      {
+        "name": "Hispanic productos corp. (St Cloud, FL)",
+        "accountManager": "Anthony Cella",
+        "rep": "Marvin Timbol; Shany Manzur"
+      },
+      {
+        "name": "American Food Service Depot (Philadelphia, PA)",
+        "accountManager": "Liam Delaney",
+        "rep": "Shany Manzur"
+      },
+      {
+        "name": "Spirit Publishing (Potts Point, NSW)",
+        "accountManager": "Liam Delaney",
+        "rep": "Shany Manzur"
+      },
+      {
+        "name": "Raymond Weil USA (New York, NY)",
+        "accountManager": "Liam Delaney",
+        "rep": "Shany Manzur"
+      },
+      {
+        "name": "silverrose (Antwerpen)",
+        "accountManager": "Liam Delaney",
+        "rep": "Shany Manzur"
+      },
+      {
+        "name": "Liberty Steel Products (Hubbard, OH)",
+        "accountManager": "Sam Sorrentino",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Carnival Design Inc (Zona Libre De Colón)",
+        "accountManager": "Noam Eshkol",
+        "rep": "Shany Manzur"
+      },
+      {
+        "name": "Construction Interior Products (Houston, TX)",
+        "accountManager": "Dan Miner",
+        "rep": "Iulia Cinpoeru; Mina Pascual"
+      },
+      {
+        "name": "Ewi Doors And Mill (Fresno, CA)",
+        "accountManager": "Brian Lemons",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Cal Royal (Clearwater, FL)",
+        "accountManager": "Brian Lemons",
+        "rep": "Carl Alejandria; Giezel Anne Gaveria"
+      },
+      {
+        "name": "Ko Door Company (Denver, CO)",
+        "accountManager": "Brian Lemons",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Builders Door & Window (Redding, CA)",
+        "accountManager": "Brian Lemons",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "United Interiors (Dallas, TX)",
+        "accountManager": "Brian Lemons",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "O'Neal Manufacturing Services (Kingsport, TN)",
+        "accountManager": "Andy Roop",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Rassini (Piedras, CO)",
+        "accountManager": "Andy Roop",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Yong Sheng Hong Trading Inc (Brooklyn, NY)",
+        "accountManager": "Todd Green",
+        "rep": "Shany Manzur"
+      },
+      {
+        "name": "Frito Lay (Kathleen, GA)",
+        "accountManager": "Sebastian Piras",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Regal Rexnord (Milwaukee, WI)",
+        "accountManager": "James Wilcox",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "BOBST North America Inc.",
+        "accountManager": "Ryan Brown",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "ABB Inc. (Cary, NC)",
+        "accountManager": "Abhishek Bandyopadhyay",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Pacific Northwest UIS, LLC (Renton, WA)",
+        "accountManager": "Lizzie Fuentes",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Bard Shannon Hidalgo (Mcallen, TX)",
+        "accountManager": "Matt Bush",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "RHI MAGNESITA (Tlalnepantla, ME)",
+        "accountManager": "Danny Rahilly",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "ARCOSA - Mexico (Huehuetoca, ME)",
+        "accountManager": "Danny Rahilly",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Dormakaba Mexico (Naucalpan de Juarez)",
+        "accountManager": "Monique Johnson",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "Associated Fastening Products, Inc. (Itasca, IL) New",
+        "accountManager": "Jack Logan",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "Shell – Lubricants (Houston, TX)",
+        "accountManager": "Scott Biros",
+        "rep": "Carl Alejandria"
+      },
+      {
+        "name": "Burgess-Norton Mfg, Inc. (Geneva, IL)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "HBD Industries, Inc. - Corporate Office (Dublin, OH)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Haleon US Inc. (Warren, NJ)",
+        "accountManager": "Jeff Copeland",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "JMCFS (Nanchang, 36)",
+        "accountManager": "Frank Jin",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "LeaderSoft (Xuhui, 31)",
+        "accountManager": "Edwin Hinh",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Real Pet Food Company (Crows Nest, NSW)",
+        "accountManager": "Pete Best",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Affs International (Truganina, VIC)",
+        "accountManager": "Pete Best",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Saleslink Australasia Pty Ltd (Eight Mile Plains, QLD - Logan St)",
+        "accountManager": "Dan Cooper",
+        "rep": "Amber Bourque"
+      },
+      {
+        "name": "Wild Beverages (Unanderra, NSW)",
+        "accountManager": "Pete Best",
+        "rep": "Iulia Cinpoeru; Amber Bourque"
+      },
+      {
+        "name": "Siemens Energy Inc (Charlotte, NC)",
+        "accountManager": "James Wilcox",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "BH Doors and Hardware (Brooklyn, NY)",
+        "accountManager": "Monique Johnson",
+        "rep": "Iulia Cinpoeru"
+      },
+      {
+        "name": "Vantive US Healthcare LLC (Mountain Home, AR)",
+        "accountManager": "James Wilcox",
+        "rep": "Alin Florita"
+      },
+      {
+        "name": "Hadady Corporation (South Holland, IL)",
+        "accountManager": "Abraham Ngomo",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "TIMET (Henderson, NV)",
+        "accountManager": "Andy Roop",
+        "rep": "Aiza Domingo"
+      },
+      {
+        "name": "Boeing (Portland, OR)",
+        "accountManager": "James Wilcox",
+        "rep": "Giezel Anne Gaveria"
+      },
+      {
+        "name": "THK Rhythm North America Co., Ltd (Hebron, OH)",
+        "accountManager": "Andy Roop",
+        "rep": "Marvin Timbol"
+      },
+      {
+        "name": "Metalsa Structural Products, Inc (Elizabethtown, KY)",
+        "accountManager": "Andy Roop",
+        "rep": "Mina Pascual"
+      },
+      {
+        "name": "MAHLE Filter Systems North America, Inc. (Farmington Hills, MI)",
+        "accountManager": "Andy Roop",
+        "rep": "Alin Florita"
+      }
+    ],
+    "nsMatchedHoldCount": 120,
+    "nsUnmatchedHoldCount": 197
+  },
+  "taaChecks": {
+    "eligibleCount": 222,
+    "withManagerCount": 214,
+    "withoutManagerCount": 8,
+    "inactiveReps": [
+      {
+        "repName": "Keith J Reviello",
+        "accountCount": 9
+      },
+      {
+        "repName": "Shwetha Prabhu",
+        "accountCount": 1
+      },
+      {
+        "repName": "Saveen Suryavamshi",
+        "accountCount": 1
+      }
+    ]
+  },
+  "repAccounts": {
+    "Percival Javier": [
+      {
+        "name": "Mars Information Services, Inc. (Hackettstown, NJ)",
+        "balance": 149327,
+        "dpd": 94
+      },
+      {
+        "name": "HTA Products Inc (Richmond, British Columbia)",
+        "balance": 19272,
+        "dpd": 315
+      },
+      {
+        "name": "JAE Oregon (Tualatin, OR)",
+        "balance": 10139,
+        "dpd": 88
+      },
+      {
+        "name": "PQSI (Chennai, India)",
+        "balance": 7007,
+        "dpd": 122
+      },
+      {
+        "name": "Worldpak Flexible Packaging LLC (Reno, Nevada)",
+        "balance": 4726,
+        "dpd": 89
+      },
+      {
+        "name": "BALLARD POWER SYSTEMS (Burnaby, British Columbia)",
+        "balance": 3543,
+        "dpd": 97
+      },
+      {
+        "name": "Lincoln SKF (St. Louis, MO)",
+        "balance": 1620,
+        "dpd": 61
+      },
+      {
+        "name": "Owens Corning (Cortland, IL)",
+        "balance": 1298,
+        "dpd": 256
+      },
+      {
+        "name": "Zarco Electronic Supply, Inc",
+        "balance": 1146,
+        "dpd": 232
+      },
+      {
+        "name": "Holts Precision, Inc. (South Windsor, CT)",
+        "balance": 1134,
+        "dpd": 62
+      },
+      {
+        "name": "Titan Tool & Die Ltd. (Windsor, Ontario)",
+        "balance": 1058,
+        "dpd": 74
+      },
+      {
+        "name": "Metaltest INC, (Kent, WA)",
+        "balance": 826,
+        "dpd": 123
+      },
+      {
+        "name": "Lewark Metal Spinning (Dayton, OH)",
+        "balance": 565,
+        "dpd": 74
+      },
+      {
+        "name": "Cascade Corporation (Springfield, OH)",
+        "balance": 564,
+        "dpd": 110
+      },
+      {
+        "name": "Twigg Corp. (Martinsville, IN)",
+        "balance": 563,
+        "dpd": 73
+      },
+      {
+        "name": "Micro Facture, LLC (Mountville, PA)",
+        "balance": 557,
+        "dpd": 82
+      },
+      {
+        "name": "KS Kolbenschmidt US Inc (Marinette, WI)",
+        "balance": 551,
+        "dpd": 111
+      },
+      {
+        "name": "LM Wind Power (Gaspe, Quebec)",
+        "balance": 538,
+        "dpd": 249
+      },
+      {
+        "name": "Driv de Mexico (Tepotzotlán, Estado de Mexico)",
+        "balance": 526,
+        "dpd": 118
+      },
+      {
+        "name": "HARSCO RAIL (West Columbia, SC)",
+        "balance": 526,
+        "dpd": 133
+      },
+      {
+        "name": "Fruit Growers Supply Company Inc (Valencia, CA)",
+        "balance": 409,
+        "dpd": 126
+      },
+      {
+        "name": "Schulze and Burch Biscuit Co (Chicago, Illinois)",
+        "balance": 315,
+        "dpd": 281
+      },
+      {
+        "name": "ARROW PNEUMATICS (BROADVIEW, IL)",
+        "balance": 96,
+        "dpd": 88
+      },
+      {
+        "name": "New Dimensions Precision Machining Inc (Union, IL)",
+        "balance": 61,
+        "dpd": 100
+      }
+    ],
+    "Alin Florita": [
+      {
+        "name": "Marx Foods (Atlantic Highlands, NJ) (Newark, NJ)",
+        "balance": 117420,
+        "dpd": 439
+      },
+      {
+        "name": "Means Transform & BN (Saginaw, MI)",
+        "balance": 85032,
+        "dpd": 76
+      },
+      {
+        "name": "Forest Packaging Corporation (Elk Grove Village) (Elk Grove Village, IL) (Elk Grov",
+        "balance": 24446,
+        "dpd": 72
+      },
+      {
+        "name": "Kamen Wiping Materials Company (Wichita, KS)",
+        "balance": 13918,
+        "dpd": 249
+      },
+      {
+        "name": "Carrier Corporation (Indianapolis, IN)",
+        "balance": 12257,
+        "dpd": 67
+      },
+      {
+        "name": "Vasco Brands, Inc. (Elmira, New York)",
+        "balance": 7307,
+        "dpd": 100
+      },
+      {
+        "name": "M & H Supply & Equipment (Fort Worth, Texas)",
+        "balance": 4274,
+        "dpd": 283
+      },
+      {
+        "name": "Becton Dickinson de México, S.A. de C.V. (Hermosillo, Sonora, Mexico)",
+        "balance": 2087,
+        "dpd": 284
+      },
+      {
+        "name": "BMT Aerospace USA, Inc. (Fraser, MI)",
+        "balance": 450,
+        "dpd": 161
+      }
+    ],
+    "Mina Pascual": [
+      {
+        "name": "HARBOR INFORMATICA INDUSTRIAL LTDA (Florianopolis, Santa Catarina, Brazil)",
+        "balance": 34913,
+        "dpd": 210
+      },
+      {
+        "name": "Recognition Systems, Inc. (PORT WASHINGTON, New York)",
+        "balance": 30824,
+        "dpd": 102
+      },
+      {
+        "name": "Cornerstone Supply Inc. (Madison, AL)",
+        "balance": 17878,
+        "dpd": 96
+      },
+      {
+        "name": "Shi International Corp. (SOMERSET, NJ)",
+        "balance": 13900,
+        "dpd": 222
+      },
+      {
+        "name": "Kyocera AVX Components Corporation (Fountain Inn, SC)",
+        "balance": 8153,
+        "dpd": 101
+      },
+      {
+        "name": "Hitachi Energy USA Inc (Raleigh, NC)",
+        "balance": 5670,
+        "dpd": 72
+      },
+      {
+        "name": "Airgas Specialty Gases (Plumsteadville, PA)",
+        "balance": 3308,
+        "dpd": 161
+      },
+      {
+        "name": "A-Line Electrical Supply Inc. (Brooklyn, NY)",
+        "balance": 3247,
+        "dpd": 89
+      },
+      {
+        "name": "Westfield Steel Inc (Westfield, IN)",
+        "balance": 3033,
+        "dpd": 191
+      },
+      {
+        "name": "PPG Coatings Services (Troy, MI)",
+        "balance": 2667,
+        "dpd": 66
+      },
+      {
+        "name": "Teknia Group (Mt. Juliet, TN)",
+        "balance": 2404,
+        "dpd": 63
+      },
+      {
+        "name": "Harbison Fischer (Crowley, TX)",
+        "balance": 2338,
+        "dpd": 119
+      },
+      {
+        "name": "North American Lighting (San Luis Potosi)",
+        "balance": 1952,
+        "dpd": 94
+      },
+      {
+        "name": "O'Neal Manufacturing Services (Kingsport, TN)",
+        "balance": 1160,
+        "dpd": 118
+      },
+      {
+        "name": "Michigan Spring & Stamping (Muskegon, MI)",
+        "balance": 1115,
+        "dpd": 87
+      },
+      {
+        "name": "Johnson Controls BE Operations Mexico (El Paso, TX)",
+        "balance": 723,
+        "dpd": 111
+      },
+      {
+        "name": "AAM - Novocast, S. de R.L. de C.V. (El Carmen, Nuevo Leon)",
+        "balance": 526,
+        "dpd": 145
+      },
+      {
+        "name": "Novitatech Australia (Regency Park, SA)",
+        "balance": 515,
+        "dpd": 224
+      },
+      {
+        "name": "ITW Automotive Products México, S. de R.L. de C.V. (Aguascalientes)",
+        "balance": 395,
+        "dpd": 191
+      }
+    ],
+    "Aiza Domingo": [
+      {
+        "name": "Detroit Diesel Corporation (Detroit, MI)",
+        "balance": 18302,
+        "dpd": 250
+      },
+      {
+        "name": "Bmax (Orion, MI)",
+        "balance": 18182,
+        "dpd": 190
+      },
+      {
+        "name": "Southard Supply, Inc. (Columbus, Ohio)",
+        "balance": 12548,
+        "dpd": 165
+      },
+      {
+        "name": "ZOLL Medical Corporation (Chelmsford, MA)",
+        "balance": 11818,
+        "dpd": 95
+      },
+      {
+        "name": "Rivian Automotive, LLC (Normal, IL)",
+        "balance": 9074,
+        "dpd": 86
+      },
+      {
+        "name": "Henry Repeating Arms",
+        "balance": 7385,
+        "dpd": 427
+      },
+      {
+        "name": "NAMPAK BEVCAN NIGERIA LIMITED (Agbara) (Agbara, Ogun State, )",
+        "balance": 6525,
+        "dpd": 110
+      },
+      {
+        "name": "Flextronics (Memphis, TN) (Memphis, TN)",
+        "balance": 5930,
+        "dpd": 104
+      },
+      {
+        "name": "Mars (Kings Lynn, UK)",
+        "balance": 5408,
+        "dpd": 127
+      },
+      {
+        "name": "Owens Corning Corporate Services, LLC (Toledo, OH)",
+        "balance": 5116,
+        "dpd": 531
+      },
+      {
+        "name": "CPI CORP (Beverly, MA) (Acworth, GA)",
+        "balance": 4973,
+        "dpd": 91
+      },
+      {
+        "name": "StarPak LLC (Houston, TX) (Houston, TX)",
+        "balance": 4754,
+        "dpd": 112
+      },
+      {
+        "name": "Tal Products Inc (Toronto, Ontario)",
+        "balance": 4409,
+        "dpd": 72
+      },
+      {
+        "name": "Amcor Specialty Cartons Americas - Richmond (Chester, VA)",
+        "balance": 4048,
+        "dpd": 72
+      },
+      {
+        "name": "Safran Landing Systems Mexico, S.A. de C.V (Queretaro, Queretaro)",
+        "balance": 2651,
+        "dpd": 108
+      },
+      {
+        "name": "Littelfuse Semiconductor Wuxi Co., Ltd. (Wuxi, 32)",
+        "balance": 2185,
+        "dpd": 310
+      },
+      {
+        "name": "Zone Enterprises (St. Louis, MO)",
+        "balance": 2134,
+        "dpd": 158
+      },
+      {
+        "name": "KDC (Knowlton, Quebec) (Knowlton, QC)",
+        "balance": 2003,
+        "dpd": 201
+      },
+      {
+        "name": "Materion Electronic Materials",
+        "balance": 1992,
+        "dpd": 223
+      },
+      {
+        "name": "SKOON SKIN CARE PTY LTD (Western Cape, Cape Town)",
+        "balance": 1956,
+        "dpd": 332
+      },
+      {
+        "name": "Lithgow Arms (Lithgow, New South Wales)",
+        "balance": 1929,
+        "dpd": 69
+      },
+      {
+        "name": "Molycop Pty Ltd (Waratah, NSW)",
+        "balance": 486,
+        "dpd": 224
+      },
+      {
+        "name": "Quentech Services (Singapore, Singapore)",
+        "balance": 338,
+        "dpd": 181
+      },
+      {
+        "name": "CERVECERIA CUAUHTEMOC MOCTEZUMA (Chihuahua, CH)",
+        "balance": 330,
+        "dpd": 178
+      },
+      {
+        "name": "CDEL IT LLC",
+        "balance": 202,
+        "dpd": 153
+      },
+      {
+        "name": "TekModo (Three Rivers, MI)",
+        "balance": 128,
+        "dpd": 197
+      },
+      {
+        "name": "AL DOBOWI LLC (Ras Al Khaimah)",
+        "balance": 71,
+        "dpd": 68
+      }
+    ],
+    "Unassigned": [
+      {
+        "name": "Boston Scientific Corporation (Maple Grove, MN)",
+        "balance": 57480,
+        "dpd": 96
+      },
+      {
+        "name": "Paragon Medical - Smithfield (Smithfield, UT)",
+        "balance": 46764,
+        "dpd": 83
+      },
+      {
+        "name": "Construction Interior Products (Houston, TX)",
+        "balance": 35643,
+        "dpd": 327
+      },
+      {
+        "name": "Associated Fastening Products, Inc. (Itasca, IL) New",
+        "balance": 34001,
+        "dpd": 131
+      },
+      {
+        "name": "BH Doors and Hardware (Brooklyn, NY)",
+        "balance": 29745,
+        "dpd": 115
+      },
+      {
+        "name": "Boeing (Portland, OR)",
+        "balance": 22942,
+        "dpd": 62
+      },
+      {
+        "name": "Masonite Corporation (Laurel, MS)",
+        "balance": 18533,
+        "dpd": 173
+      },
+      {
+        "name": "ABB Inc. (Cary, NC)",
+        "balance": 16661,
+        "dpd": 206
+      },
+      {
+        "name": "Wild Beverages (Unanderra, NSW)",
+        "balance": 12096,
+        "dpd": 159
+      },
+      {
+        "name": "Coca-Cola Beverages Vietnam Limited Liability Company (Ho Chi Minh City)",
+        "balance": 10692,
+        "dpd": 242
+      },
+      {
+        "name": "Hadady Corporation (South Holland, IL)",
+        "balance": 9726,
+        "dpd": 75
+      },
+      {
+        "name": "Veyance Qingdao (Qingdao, Shandong)",
+        "balance": 7841,
+        "dpd": 95
+      },
+      {
+        "name": "Bard Shannon Hidalgo (Mcallen, TX)",
+        "balance": 7161,
+        "dpd": 117
+      },
+      {
+        "name": "GE Healthcare AS (Lindesnes)",
+        "balance": 5777,
+        "dpd": 150
+      },
+      {
+        "name": "Burgess-Norton Mfg, Inc. (Geneva, IL)",
+        "balance": 5599,
+        "dpd": 194
+      },
+      {
+        "name": "Rassini (Piedras, CO)",
+        "balance": 5598,
+        "dpd": 271
+      },
+      {
+        "name": "TIMET (Henderson, NV)",
+        "balance": 5257,
+        "dpd": 69
+      },
+      {
+        "name": "Grupo J Distribution Ltd. (Eugene, OR)",
+        "balance": 5214,
+        "dpd": 133
+      },
+      {
+        "name": "Champion Laboratories, Inc. (Albion, IL)",
+        "balance": 4215,
+        "dpd": 271
+      },
+      {
+        "name": "Bodycote (Grand Rapids, MI)",
+        "balance": 3996,
+        "dpd": 314
+      },
+      {
+        "name": "Burkert Fluid Control Systems (Huntersville, NC)",
+        "balance": 3644,
+        "dpd": 173
+      },
+      {
+        "name": "Metalsa Structural Products, Inc (Elizabethtown, KY)",
+        "balance": 3602,
+        "dpd": 61
+      },
+      {
+        "name": "Emcore Fiber Optics (Alhambra, CA)",
+        "balance": 2837,
+        "dpd": 442
+      },
+      {
+        "name": "Honda Transmission Mfg. (Marysville, OH)",
+        "balance": 2433,
+        "dpd": 180
+      },
+      {
+        "name": "Novarus US (Livonia, MI)",
+        "balance": 2374,
+        "dpd": 159
+      },
+      {
+        "name": "US Army (Gunpowder, MD)",
+        "balance": 2166,
+        "dpd": 160
+      },
+      {
+        "name": "THK Rhythm North America Co., Ltd (Hebron, OH)",
+        "balance": 2143,
+        "dpd": 70
+      },
+      {
+        "name": "RHI MAGNESITA (Tlalnepantla, ME)",
+        "balance": 1998,
+        "dpd": 230
+      },
+      {
+        "name": "Siemens Energy Inc (Charlotte, NC)",
+        "balance": 1924,
+        "dpd": 104
+      },
+      {
+        "name": "CAIRE, Inc. (Buffalo, NY)",
+        "balance": 1425,
+        "dpd": 71
+      },
+      {
+        "name": "Dormakaba Mexico (Naucalpan de Juarez)",
+        "balance": 1395,
+        "dpd": 125
+      },
+      {
+        "name": "BOBST North America Inc.",
+        "balance": 1292,
+        "dpd": 252
+      },
+      {
+        "name": "Astellas Pharma Technologies (Norman, OK)",
+        "balance": 1150,
+        "dpd": 191
+      },
+      {
+        "name": "Commercial Vehicle Group, Inc. (New Albany, OH)",
+        "balance": 1093,
+        "dpd": 68
+      },
+      {
+        "name": "Regal Rexnord (Milwaukee, WI)",
+        "balance": 1058,
+        "dpd": 284
+      },
+      {
+        "name": "ARCOSA - Mexico (Huehuetoca, ME)",
+        "balance": 999,
+        "dpd": 188
+      },
+      {
+        "name": "The Boeing Company (Seattle, WA)",
+        "balance": 892,
+        "dpd": 189
+      },
+      {
+        "name": "Owens Corning (Tallmadge, OH) (Tallmadge, OH)",
+        "balance": 840,
+        "dpd": 281
+      },
+      {
+        "name": "Emerson Process Mgmt Valve Automation (Houston, TX) (Houston, TX)",
+        "balance": 579,
+        "dpd": 209
+      },
+      {
+        "name": "Kasai North America Inc. (Talladega, Alabama) (Talladega, AL)",
+        "balance": 578,
+        "dpd": 222
+      },
+      {
+        "name": "MAHLE Filter Systems North America, Inc. (Farmington Hills, MI)",
+        "balance": 577,
+        "dpd": 68
+      },
+      {
+        "name": "Mahle Engine Components Usa, Inc. (Farmington Hills, MI)",
+        "balance": 563,
+        "dpd": 238
+      },
+      {
+        "name": "Edelman Lyon Automatic Door (Grandview, MO)",
+        "balance": 360,
+        "dpd": 98
+      },
+      {
+        "name": "Bimbo Bakeries QSR Denver (Denver, CO)",
+        "balance": 262,
+        "dpd": 222
+      },
+      {
+        "name": "South Mill Mushroom LLC (Kennett Square, PA)",
+        "balance": 210,
+        "dpd": 127
+      },
+      {
+        "name": "MIDDLE EAST BATTERY COMPANY (Dammam) (Dammam, )",
+        "balance": 164,
+        "dpd": 153
+      },
+      {
+        "name": "T Marzetti Co (Atlanta, Georgia)",
+        "balance": 105,
+        "dpd": 97
+      },
+      {
+        "name": "The Roark Group, Inc. (Rogers, AR)",
+        "balance": 0,
+        "dpd": 60
+      }
+    ],
+    "Keith J Reviello": [
+      {
+        "name": "PepsiCo (Dallas, TX)",
+        "balance": 55027,
+        "dpd": 100
+      },
+      {
+        "name": "Insight (Orem, UT)",
+        "balance": 15134,
+        "dpd": 152
+      },
+      {
+        "name": "Bimbo QSR - Plessis France (Le Plessis-Pate)",
+        "balance": 8995,
+        "dpd": 62
+      },
+      {
+        "name": "Sonoco Products Company (Hartsville, SC) - Global HQ",
+        "balance": 8459,
+        "dpd": 314
+      },
+      {
+        "name": "International Paper Company (Memphis, TN)",
+        "balance": 6799,
+        "dpd": 344
+      },
+      {
+        "name": "Joyson Safety Systems Acquisition LLC (Auburn Hills)",
+        "balance": 1943,
+        "dpd": 144
+      },
+      {
+        "name": "Bimbo QSR Ohio, LLC - Airport (Zanesville, OH)",
+        "balance": 916,
+        "dpd": 297
+      },
+      {
+        "name": "Sonoco Metal Packaging, LLC (Henderson, KY)",
+        "balance": 472,
+        "dpd": 251
+      },
+      {
+        "name": "International Paper Mexico Company (Queretaro, QE)",
+        "balance": 93,
+        "dpd": 192
+      }
+    ],
+    "Thimothy Cabildo": [
+      {
+        "name": "Duke Distributing (San Antonio, Texas)",
+        "balance": 49033,
+        "dpd": 101
+      },
+      {
+        "name": "Wood Plumbing Supply LLC (Jonesboro, Arkansas)",
+        "balance": 21850,
+        "dpd": 152
+      },
+      {
+        "name": "[TEST] Test - Test Fulfillment Company",
+        "balance": 3214,
+        "dpd": 70
+      }
+    ],
+    "Giezel Anne Gaveria": [
+      {
+        "name": "All Kurma Sdn Bhd (Simpang Ampat)",
+        "balance": 44710,
+        "dpd": 251
+      },
+      {
+        "name": "Realm Artesian Water",
+        "balance": 27475,
+        "dpd": 179
+      },
+      {
+        "name": "G & A Pool Products, Inc. (Longview, Texas)",
+        "balance": 22338,
+        "dpd": 97
+      },
+      {
+        "name": "Pine Creek Pack LLC (Omak, WA)",
+        "balance": 20723,
+        "dpd": 72
+      },
+      {
+        "name": "Erlanger Hardware Consultants/DBA Innovative Opening Solutions (Norwood, OH)",
+        "balance": 13215,
+        "dpd": 72
+      },
+      {
+        "name": "Ship Amigo (San Diego, CA)",
+        "balance": 13165,
+        "dpd": 83
+      },
+      {
+        "name": "Air Control Supply Co. Inc. (BOHEMIA, NY)",
+        "balance": 11223,
+        "dpd": 314
+      },
+      {
+        "name": "NY Plumbing Wholesale and Supply Inc. (New York, New York)",
+        "balance": 10795,
+        "dpd": 72
+      },
+      {
+        "name": "Frito Lay (Kathleen, GA)",
+        "balance": 2288,
+        "dpd": 189
+      }
+    ],
+    "Marvin Timbol": [
+      {
+        "name": "Dupont HIMS Extrusion - Hemlock formerly Dow (Midland, MI)",
+        "balance": 28424,
+        "dpd": 104
+      },
+      {
+        "name": "PMC SMART Solutions, LLC (Blue Ash, OH)",
+        "balance": 23404,
+        "dpd": 75
+      },
+      {
+        "name": "Primus Electronics Corp. (Morris, Illinois)",
+        "balance": 17687,
+        "dpd": 102
+      },
+      {
+        "name": "T. Frank McCall's Incorporated (Chester, Pennsylvania)",
+        "balance": 13418,
+        "dpd": 115
+      },
+      {
+        "name": "Frank Callahan Company Inc (Mcadoo, PA)",
+        "balance": 11235,
+        "dpd": 131
+      },
+      {
+        "name": "Fresenius (Maricao, PR)",
+        "balance": 10805,
+        "dpd": 160
+      },
+      {
+        "name": "Flowserve (Raleigh, NC)",
+        "balance": 8313,
+        "dpd": 112
+      },
+      {
+        "name": "Fraser Alexander Pty Ltd (Rosebank, Johannesburg)",
+        "balance": 5727,
+        "dpd": 121
+      },
+      {
+        "name": "Citadel Casing Solutions (Houston, TX)",
+        "balance": 2350,
+        "dpd": 153
+      },
+      {
+        "name": "Brembo (Apodaca, Nueva Leon)",
+        "balance": 2245,
+        "dpd": 121
+      },
+      {
+        "name": "Telamon Evropa DOOEL Skopje (Skopje, )",
+        "balance": 1122,
+        "dpd": 123
+      },
+      {
+        "name": "Maple Stamping (Concord, Ontario)",
+        "balance": 1122,
+        "dpd": 171
+      },
+      {
+        "name": "CPM Labs (Sacramento, CA)",
+        "balance": 1058,
+        "dpd": 144
+      },
+      {
+        "name": "Amro Fabricating (SOUTH EL MONTE, CA)",
+        "balance": 956,
+        "dpd": 63
+      },
+      {
+        "name": "Jensar Manufacturing (Toledo, Ohio)",
+        "balance": 566,
+        "dpd": 61
+      },
+      {
+        "name": "AUTO METAL CRAFT INC (Oak Park, MI)",
+        "balance": 557,
+        "dpd": 108
+      },
+      {
+        "name": "Pierburg US, LLC (Fountain Inn, SC)",
+        "balance": 526,
+        "dpd": 72
+      },
+      {
+        "name": "Caribbean Foods Delight, Inc. (Tappan, New York)",
+        "balance": 452,
+        "dpd": 62
+      },
+      {
+        "name": "Rmac Supplies (Teaneck, NJ)",
+        "balance": 252,
+        "dpd": 283
+      },
+      {
+        "name": "Pennex Aluminum Co (Leetonia, OH)",
+        "balance": 0,
+        "dpd": 60
+      }
+    ],
+    "Carl Alejandria": [
+      {
+        "name": "Joy Accessories Inc (New Britain, CT)",
+        "balance": 42036,
+        "dpd": 100
+      },
+      {
+        "name": "T & J Printing Supply, Inc. (Huntley, Illinois)",
+        "balance": 8976,
+        "dpd": 72
+      },
+      {
+        "name": "Nufulfillment, LLC (Brunswick, OH)",
+        "balance": 3440,
+        "dpd": 118
+      },
+      {
+        "name": "David Weber Co., Inc. (Philadelphia, Pennsylvania)",
+        "balance": 188,
+        "dpd": 126
+      },
+      {
+        "name": "Dtb Distributors Inc (Lebanon, Ohio)",
+        "balance": 89,
+        "dpd": 72
+      }
+    ],
+    "Amber Bourque": [
+      {
+        "name": "Novares US LLC (Livonia, Michigan)",
+        "balance": 24070,
+        "dpd": 131
+      },
+      {
+        "name": "Sunrise Fresh (Stockton, CA)",
+        "balance": 7972,
+        "dpd": 97
+      },
+      {
+        "name": "Autocam Corporation, Inc. (HQ) (Kentwood, Michigan) (Kentwood, MI)",
+        "balance": 5763,
+        "dpd": 148
+      },
+      {
+        "name": "DATA DEVICE Corp (Bohemia, NY)",
+        "balance": 4790,
+        "dpd": 75
+      },
+      {
+        "name": "Freedom Run Farms DBA Bluegrass Lamb Company (Elizabethtown, KY)",
+        "balance": 4114,
+        "dpd": 72
+      },
+      {
+        "name": "Cream Co. Meats (Oakland, Ca)",
+        "balance": 118,
+        "dpd": 70
+      },
+      {
+        "name": "Fenwal International Inc. (Haina)",
+        "balance": 52,
+        "dpd": 127
+      },
+      {
+        "name": "COCA-COLA PINYA BEVERAGES MYANMAR LIMITED (Yangon)",
+        "balance": 0,
+        "dpd": 60
+      }
+    ],
+    "Kelsea Meyers": [
+      {
+        "name": "Kohler Company (Hattiesburg, MS)",
+        "balance": 22963,
+        "dpd": 143
+      },
+      {
+        "name": "Luminex Home Decor & Fragrance Co. (Leesburg, OH)",
+        "balance": 16721,
+        "dpd": 193
+      },
+      {
+        "name": "Atrion Corporation/Halkey-Roberts (Allen, TX)",
+        "balance": 4859,
+        "dpd": 283
+      },
+      {
+        "name": "The Kennedy Group (Willoughby, OH)",
+        "balance": 4410,
+        "dpd": 314
+      },
+      {
+        "name": "Whirlpool (Cleveland, TN)",
+        "balance": 2749,
+        "dpd": 802
+      },
+      {
+        "name": "Sherex Fastening Solutions, LLC (Tonawanda, NY)",
+        "balance": 2292,
+        "dpd": 314
+      },
+      {
+        "name": "Advance Turning & Mfg (Jackson, MI)",
+        "balance": 1732,
+        "dpd": 442
+      },
+      {
+        "name": "Stryten Communications PA (Lancaster, PA)",
+        "balance": 507,
+        "dpd": 355
+      }
+    ],
+    "Emalen Talabucon": [
+      {
+        "name": "Unipak, Inc. (West Chester, PA)",
+        "balance": 11869,
+        "dpd": 147
+      },
+      {
+        "name": "Coley Electric Supply Company, Inc. (Alma, Georgia)",
+        "balance": 6544,
+        "dpd": 101
+      },
+      {
+        "name": "C H Peters Co (Racine, Wisconsin)",
+        "balance": 2953,
+        "dpd": 111
+      },
+      {
+        "name": "Badger Solutions DBA ND Packaging - Sturtevant Division (Sturtevant, WI)",
+        "balance": 816,
+        "dpd": 224
+      }
+    ],
+    "Iulia Cinpoeru": [
+      {
+        "name": "TreeHouse Foods / Bay Valley Foods (Faison, NC)",
+        "balance": 12473,
+        "dpd": 519
+      },
+      {
+        "name": "Schlage Lock Company LLC (Colorado Springs, CO)",
+        "balance": 11340,
+        "dpd": 266
+      },
+      {
+        "name": "TreeHouse Foods, Inc. (Carrollton, TX)",
+        "balance": 6671,
+        "dpd": 449
+      },
+      {
+        "name": "Les Emballages OnduCorr Inc (Anjou, Quebec)",
+        "balance": 4616,
+        "dpd": 72
+      },
+      {
+        "name": "Midwest Control (Wauconda, IL)",
+        "balance": 3621,
+        "dpd": 100
+      },
+      {
+        "name": "Bio Pappel, S.A. de C.V. (Chihuahua, Chihuahua)",
+        "balance": 2100,
+        "dpd": 123
+      },
+      {
+        "name": "Johnstone Supply Intermediate LLC dba Johnstone #79 (New Orleans, LA)",
+        "balance": 1200,
+        "dpd": 99
+      },
+      {
+        "name": "Wagner Supply (Odessa, TX)",
+        "balance": 1082,
+        "dpd": 98
+      },
+      {
+        "name": "McKinley Paper and Packaging Company (Covington, GA)",
+        "balance": 978,
+        "dpd": 252
+      },
+      {
+        "name": "Montevideo Refresos S.R.I(Montevideo)",
+        "balance": 716,
+        "dpd": 182
+      },
+      {
+        "name": "Ball Aerosol Packaging Mexico S.A de C.V",
+        "balance": 679,
+        "dpd": 131
+      },
+      {
+        "name": "GATX Corporation (Chicago, IL)",
+        "balance": 447,
+        "dpd": 88
+      },
+      {
+        "name": "JOHNSTONE #294 (Tamuning, Guam)",
+        "balance": 188,
+        "dpd": 161
+      }
+    ],
+    "JJ Cervantes": [
+      {
+        "name": "Gerresheimer Querétaro, S.A. (Querétaro)",
+        "balance": 10470,
+        "dpd": 318
+      },
+      {
+        "name": "PPC Broadband, Inc. (East Syracuse, New York)",
+        "balance": 7220,
+        "dpd": 84
+      },
+      {
+        "name": "Gestamp Aguascalientes, S.A. de C.V. (San Francisco de los Romo, Aguascalientes)",
+        "balance": 4166,
+        "dpd": 161
+      },
+      {
+        "name": "Pacific Foods of Oregon, LLC (Tualatin, Oregon)",
+        "balance": 4107,
+        "dpd": 360
+      },
+      {
+        "name": "Carlisle Interconnect Technologies (Franklin, WI)",
+        "balance": 2251,
+        "dpd": 146
+      },
+      {
+        "name": "PCC Structurals (San Leandro, CA)",
+        "balance": 1583,
+        "dpd": 209
+      },
+      {
+        "name": "Collins Aerospace (Anaheim, CA)",
+        "balance": 1051,
+        "dpd": 73
+      },
+      {
+        "name": "Servilaminas Summit Mexicana, S.A. DE C.V. (Queretaro, Guanajuato)",
+        "balance": 526,
+        "dpd": 162
+      },
+      {
+        "name": "Harley-Davidson Motor Company, Inc (Menomonee Falls, WI)",
+        "balance": 420,
+        "dpd": 133
+      }
+    ],
+    "Shany Manzur": [
+      {
+        "name": "Carnival Design Inc",
+        "balance": 5406,
+        "dpd": 125
+      },
+      {
+        "name": "Yong Sheng Hong Trading Inc (Brooklyn, NY)",
+        "balance": 1219,
+        "dpd": 62
+      }
+    ],
+    "Tiffany Johnson": [
+      {
+        "name": "Papel Y Empaques Gondi Monterrey (Guadalupe, NL)",
+        "balance": 2100,
+        "dpd": 245
+      },
+      {
+        "name": "Smurfit Westrock - Lancaster, PA (Legacy)",
+        "balance": 833,
+        "dpd": 480
+      },
+      {
+        "name": "Smurfit Westrock Brazil - Pacajus",
+        "balance": 177,
+        "dpd": 71
+      }
+    ],
+    "Shwetha Prabhu": [
+      {
+        "name": "Serenity Lane (Coburg, OR)",
+        "balance": 478,
+        "dpd": 405
+      }
+    ],
+    "Saveen Suryavamshi": [
+      {
+        "name": "Regal Beloit Corporation (Lebanon, Missouri)",
+        "balance": 478,
+        "dpd": 435
+      }
+    ]
+  },
+  "inactiveRepAccounts": {
+    "Keith J Reviello": [
+      {
+        "name": "PepsiCo (Dallas, TX)",
+        "balance": 55027,
+        "dpd": 100
+      },
+      {
+        "name": "Insight (Orem, UT)",
+        "balance": 15134,
+        "dpd": 152
+      },
+      {
+        "name": "Bimbo QSR - Plessis France (Le Plessis-Pate)",
+        "balance": 8995,
+        "dpd": 62
+      },
+      {
+        "name": "Sonoco Products Company (Hartsville, SC) - Global HQ",
+        "balance": 8459,
+        "dpd": 314
+      },
+      {
+        "name": "International Paper Company (Memphis, TN)",
+        "balance": 6799,
+        "dpd": 344
+      },
+      {
+        "name": "Joyson Safety Systems Acquisition LLC (Auburn Hills)",
+        "balance": 1943,
+        "dpd": 144
+      },
+      {
+        "name": "Bimbo QSR Ohio, LLC - Airport (Zanesville, OH)",
+        "balance": 916,
+        "dpd": 297
+      },
+      {
+        "name": "Sonoco Metal Packaging, LLC (Henderson, KY)",
+        "balance": 472,
+        "dpd": 251
+      },
+      {
+        "name": "International Paper Mexico Company (Queretaro, QE)",
+        "balance": 93,
+        "dpd": 192
+      }
+    ],
+    "Shwetha Prabhu": [
+      {
+        "name": "Serenity Lane (Coburg, OR)",
+        "balance": 478,
+        "dpd": 405
+      }
+    ],
+    "Saveen Suryavamshi": [
+      {
+        "name": "Regal Beloit Corporation (Lebanon, Missouri)",
+        "balance": 478,
+        "dpd": 435
+      }
+    ]
+  },
+  "fullAging": {
+    "Current": 14624326.11,
+    "1-30": 3086384.04,
+    "31-60": 921394.39,
+    "61-90": 526585.32,
+    "91-120": 638491.13,
+    "121-180": 324224.38,
+    "181-365": 302944.58,
+    "365+": 69220.13
+  },
+  "cashCollected": {
+    "mtd": 2639924.73,
+    "qtd": 18447177.85,
+    "topMovers": [
+      {
+        "name": "TreeHouse Foods, Inc.",
+        "amt": 306593.17
+      },
+      {
+        "name": "Anheuser-Busch, LLC",
+        "amt": 156802.93
+      },
+      {
+        "name": "COCA-COLA EUROPACIFIC PARTNERS AUSTRALIA PTY LIMITED",
+        "amt": 113605.5
+      }
+    ],
+    "_source": "NetSuite CustPymt (live); may differ from AR Tracker official cash figure"
+  },
+  "approaching": [
+    {
+      "name": "Owens Corning Corporate Services, LLC",
+      "balance": 82328.77,
+      "dpd": 45
+    },
+    {
+      "name": "Kyocera AVX Components Corporation",
+      "balance": 68125.59,
+      "dpd": 42
+    },
+    {
+      "name": "Dawn Foods, Inc.",
+      "balance": 45677.24,
+      "dpd": 34
+    },
+    {
+      "name": "Confluent Medical",
+      "balance": 43616.18,
+      "dpd": 34
+    },
+    {
+      "name": "Source Logistics - Houston",
+      "balance": 41875.49,
+      "dpd": 41
+    },
+    {
+      "name": "Cavendish Farms",
+      "balance": 39096.42,
+      "dpd": 48
+    },
+    {
+      "name": "Insight",
+      "balance": 34631.18,
+      "dpd": 41
+    },
+    {
+      "name": "Metro Distributors Inc",
+      "balance": 27640.09,
+      "dpd": 56
+    }
+  ],
+  "sfBaseUrl": "https://advantive.lightning.force.com"
+}

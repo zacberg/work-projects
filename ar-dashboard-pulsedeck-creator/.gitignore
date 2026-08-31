@@ -1,0 +1,36 @@
+# ── secrets — never commit ──
+.env
+.env.*
+!.env.example
+*.local
+
+# ── dependencies & build output ──
+node_modules/
+dist/
+dist-ssr/
+__pycache__/
+*.pyc
+
+# ── generated / temp artifacts ──
+_review/
+_charts/
+_inspect/
+_api_deck.pptx
+_review_deck.pptx
+**/_test_pulse_data.json
+
+# large local template backups (regenerated locally as needed)
+pulse-deck-agent/pulse_template.backup*.pptx
+
+# ── dev screenshots (ar-dashboard root only) ──
+/ar-dashboard/*.png
+
+# ── logs / editor / OS ──
+*.log
+npm-debug.log*
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.sw?

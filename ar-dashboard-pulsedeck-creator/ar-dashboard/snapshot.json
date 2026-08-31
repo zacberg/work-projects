@@ -1,0 +1,143 @@
+{
+  "_meta": {
+    "source": "Salesforce — live production (IsSandbox: false)",
+    "pulledAt": "2026-06-02T14:00:00.000Z",
+    "sfBaseUrl": "https://advantive.lightning.force.com",
+    "queryNote": "Filters: Type = Current Customer, ParentId = null. Matches Jordan Duke reporting methodology.",
+    "currencyNote": "All USD equivalent values use live exchange rates. Non-USD balances shown in local currency with USD conversion."
+  },
+  "exchangeRates": {
+    "base": "USD",
+    "rates": { "USD": 1, "AUD": 1.575, "EUR": 0.922, "GBP": 0.787, "NZD": 1.713, "CAD": 1.369 },
+    "note": "Rates: 1 USD = X units of currency. To convert to USD divide by rate."
+  },
+  "overdueBalance": {
+    "total": 2409193,
+    "usdEquivalent": 2310208,
+    "accountCount": 221,
+    "multiCurrency": true,
+    "currencies": [
+      { "code": "USD", "accounts": 174, "balance": 1733040, "usdEquivalent": 1733040 },
+      { "code": "AUD", "accounts": 25,  "balance": 330017,  "usdEquivalent": 209535  },
+      { "code": "EUR", "accounts": 3,   "balance": 171390,  "usdEquivalent": 185890  },
+      { "code": "GBP", "accounts": 7,   "balance": 108924,  "usdEquivalent": 138404  },
+      { "code": "CAD", "accounts": 6,   "balance": 33496,   "usdEquivalent": 24467   },
+      { "code": "NZD", "accounts": 6,   "balance": 32325,   "usdEquivalent": 18872   }
+    ]
+  },
+  "atRisk": {
+    "total": 1684493,
+    "usdEquivalent": 1603773,
+    "accountCount": 156,
+    "multiCurrency": true,
+    "currencies": [
+      { "code": "USD", "accounts": 120, "balance": 1139990, "usdEquivalent": 1139990 },
+      { "code": "AUD", "accounts": 19,  "balance": 261445,  "usdEquivalent": 165997  },
+      { "code": "EUR", "accounts": 3,   "balance": 171390,  "usdEquivalent": 185890  },
+      { "code": "GBP", "accounts": 5,   "balance": 64505,   "usdEquivalent": 81963   },
+      { "code": "CAD", "accounts": 4,   "balance": 16374,   "usdEquivalent": 11960   },
+      { "code": "NZD", "accounts": 5,   "balance": 30790,   "usdEquivalent": 17973   }
+    ],
+    "topAccounts": [
+      { "id": "001QU00000MfkdjYAB", "name": "Nelt Group (Beograd)",               "balance": 130731, "dpd": 93,  "currency": "EUR" },
+      { "id": "001QU00000wApm6YAC", "name": "Auto One (Castle Hill, NSW)",         "balance": 118610, "dpd": 487, "currency": "AUD" },
+      { "id": "001QU0000025YkiYAE", "name": "Marx Foods (Atlantic Highlands, NJ)", "balance": 117420, "dpd": 429, "currency": "USD" },
+      { "id": "001QU00000OEy9mYAD", "name": "Packaging One (Middlewich)",          "balance": 63169,  "dpd": 151, "currency": "USD" },
+      { "id": "0018b00002FYdUZAA1", "name": "Riverside Paper Supply Co.",          "balance": 52513,  "dpd": 97,  "currency": "USD" }
+    ]
+  },
+  "dpdBreakdown": [
+    { "bucket": "60–89 DPD",   "accounts": 65, "balance": 724700 },
+    { "bucket": "90–119 DPD",  "accounts": 47, "balance": 545645 },
+    { "bucket": "120–179 DPD", "accounts": 46, "balance": 379321 },
+    { "bucket": "180–364 DPD", "accounts": 51, "balance": 458999 },
+    { "bucket": "365+ DPD",    "accounts": 12, "balance": 300529 }
+  ],
+  "supportHolds": {
+    "onHoldCount": 107,
+    "onHoldBalance": 776065,
+    "onHoldUsdEquivalent": 769386,
+    "onHoldMultiCurrency": true,
+    "onHoldCurrencies": [
+      { "code": "USD", "accounts": 100, "balance": 697174, "usdEquivalent": 697174 },
+      { "code": "AUD", "accounts": 5,   "balance": 44091,  "usdEquivalent": 27994  },
+      { "code": "GBP", "accounts": 1,   "balance": 34800,  "usdEquivalent": 44218  },
+      { "code": "EUR", "accounts": 1,   "balance": 0,      "usdEquivalent": 0      }
+    ],
+    "missingHoldCount": 128,
+    "missingHoldBalance": 1558165,
+    "missingHoldUsdEquivalent": 1558165,
+    "missingHoldMultiCurrency": false
+  },
+  "placementQueue": {
+    "eligibleCount": 135,
+    "eligibleBalance": 1670744,
+    "eligibleUsdEquivalent": 1578438,
+    "multiCurrency": true,
+    "currencies": [
+      { "code": "USD", "accounts": 92, "balance": 1073482, "usdEquivalent": 1073482 },
+      { "code": "AUD", "accounts": 22, "balance": 285925,  "usdEquivalent": 181540  },
+      { "code": "EUR", "accounts": 3,  "balance": 171390,  "usdEquivalent": 185890  },
+      { "code": "GBP", "accounts": 6,  "balance": 74125,   "usdEquivalent": 94187   },
+      { "code": "CAD", "accounts": 6,  "balance": 33496,   "usdEquivalent": 24467   },
+      { "code": "NZD", "accounts": 6,  "balance": 32325,   "usdEquivalent": 18872   }
+    ],
+    "blockedCount": 85,
+    "topAccounts": [
+      { "id": "001QU00000omjiGYAQ", "name": "Mars Information Services, Inc.",     "balance": 150620, "dpd": 85,  "currency": "USD" },
+      { "id": "001QU00000MfkdjYAB", "name": "Nelt Group (Beograd)",               "balance": 130731, "dpd": 93,  "currency": "EUR" },
+      { "id": "001QU00000wApm6YAC", "name": "Auto One (Castle Hill, NSW)",         "balance": 118610, "dpd": 487, "currency": "AUD" },
+      { "id": "001QU00000OEy9mYAD", "name": "Packaging One (Middlewich)",          "balance": 63169,  "dpd": 151, "currency": "USD" },
+      { "id": "0018b00002FYdUZAA1", "name": "Riverside Paper Supply Co.",          "balance": 52513,  "dpd": 97,  "currency": "USD" }
+    ]
+  },
+  "writeOffPool": {
+    "candidateCount": 63,
+    "candidateBalance": 759528,
+    "candidateUsdEquivalent": 687361,
+    "multiCurrency": true,
+    "currencies": [
+      { "code": "USD", "accounts": 44, "balance": 435846, "usdEquivalent": 435846 },
+      { "code": "AUD", "accounts": 10, "balance": 207194, "usdEquivalent": 131552 },
+      { "code": "GBP", "accounts": 2,  "balance": 50357,  "usdEquivalent": 63985  },
+      { "code": "EUR", "accounts": 1,  "balance": 31064,  "usdEquivalent": 33692  },
+      { "code": "CAD", "accounts": 3,  "balance": 12379,  "usdEquivalent": 9042   },
+      { "code": "NZD", "accounts": 3,  "balance": 22688,  "usdEquivalent": 13244  }
+    ],
+    "topAccounts": [
+      { "id": "001QU00000wApm6YAC", "name": "Auto One (Castle Hill, NSW)",          "balance": 118610, "dpd": 487, "currency": "AUD" },
+      { "id": "001QU0000025YkiYAE", "name": "Marx Foods (Atlantic Highlands, NJ)",  "balance": 117420, "dpd": 429, "currency": "USD" },
+      { "id": "001QU00000ERHO5YAP", "name": "All Kurma Sdn Bhd (Simpang Ampat)",    "balance": 44710,  "dpd": 241, "currency": "USD" },
+      { "id": "001QU00000A3zB0YAJ", "name": "DG3 North America, Inc.",              "balance": 39560,  "dpd": 213, "currency": "USD" },
+      { "id": "001QU00000A0NpcYAF", "name": "BEAUCREST (Birmingham)",               "balance": 30624,  "dpd": 212, "currency": "GBP" }
+    ]
+  },
+  "legalBlocked":        { "count": 3,   "balance": 49819   },
+  "demandLetterQueue":   { "count": 135, "balance": 1670744, "usdEquivalent": 1578438, "multiCurrency": true },
+  "extremeDPD": {
+    "count": 12,
+    "balance": 300529,
+    "usdEquivalent": 278938,
+    "multiCurrency": true,
+    "currencies": [
+      { "code": "USD", "accounts": 8, "balance": 175729, "usdEquivalent": 175729 },
+      { "code": "AUD", "accounts": 1, "balance": 77019,  "usdEquivalent": 48901  },
+      { "code": "EUR", "accounts": 1, "balance": 31064,  "usdEquivalent": 33692  },
+      { "code": "GBP", "accounts": 1, "balance": 15557,  "usdEquivalent": 19769  },
+      { "code": "CAD", "accounts": 1, "balance": 1159,   "usdEquivalent": 847    }
+    ]
+  },
+  "stopHoldOverrides":   { "count": 15, "balance": 232640  },
+  "strategicWatch":      { "count": 19, "balance": 206961  },
+  "possiblePendingHolds":{ "count": 55, "balance": 460964  },
+  "collectionsReps": [
+    { "rep": "Giezel Anne Gaveria",           "accounts": 17, "balance": 358774 },
+    { "rep": "Mina Pascual",                  "accounts": 17, "balance": 324607 },
+    { "rep": "Alin Florita",                  "accounts": 15, "balance": 274371 },
+    { "rep": "Shany Manzur",                  "accounts": 12, "balance": 239695 },
+    { "rep": "Amber Bourque",                 "accounts": 14, "balance": 176729 },
+    { "rep": "Mina Pascual; Carl Alejandria", "accounts": 13, "balance": 128332 },
+    { "rep": "Aiza Domingo",                  "accounts": 23, "balance": 104021 },
+    { "rep": "Carl Alejandria",               "accounts": 13, "balance": 103743 }
+  ]
+}
